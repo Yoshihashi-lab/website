@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ホーム | Yoshihashi Laboratory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/style.css">
+
+    <style>
+        /* 上下にゆっくり動くアニメーションの定義 */
+        @keyframes antigravity-float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* キービジュアルと図にアニメーションを適用 */
+        .keyvisual img,
+        .welcome-figure div {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        /* --- マップ用追加スタイル --- */
+        .map-section {
+            margin-top: 60px;
+        }
+
+        .map-container {
+            background: #1b3a53;
+            border-radius: 12px;
+            padding: 40px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .iso-map {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .japan-svg {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 20px 25px rgba(0, 0, 0, 0.4));
+        }
+
+        .land {
+            fill: #739e31;
+            stroke: #5b7c25;
+            stroke-width: 1px;
+        }
+
+        .land-side {
+            fill: #7e5a32;
+        }
+
+        .land-side-dark {
+            fill: #563c20;
+        }
+
+        .node {
+            fill: #93c5fd;
+            stroke: #ffffff;
+            stroke-width: 2px;
+            transition: 0.3s;
+        }
+
+        .node-main {
+            fill: #60a5fa;
+            r: 10;
+            stroke: #ffffff;
+            stroke-width: 3px;
+        }
+
+        .node-label {
+            fill: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            text-anchor: middle;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+        }
+
+        .node-label.main {
+            fill: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+        }
+
+        .avatar-group {
+            transition: transform 1s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="site-wrapper">
+
+        <header class="site-header">
+            <div class="header-inner">
+                <h1 class="site-title">吉橋研究室のウェブサイト</h1>
+                <div class="lang-switch">
+                    <a href="index.html" class="lang-btn active">JP</a>
+                    <span>|</span>
+                    <a href="en/index.html" class="lang-btn">EN</a>
+                </div>
+                <button class="nav-toggle" aria-label="メニューを開く" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
+                <nav class="site-nav" aria-label="メインナビゲーション">
+                    <ul>
+                        <li><a href="index.html" class="active">Home</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="study.html">Study</a></li>
+                        <li><a href="member.html">Member</a></li>
+                        <li><a href="presentation.html">Presentation</a></li>
+                        <li><a href="access.html">Access &amp; Contact</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <div class="keyvisual" style="position: relative; background-color: var(--color-bg);">
+            <img src="static/img/_K4A0152a.jpg" alt="Key Visual - Yoshihashi Laboratory"
+                style="width: 100%; height: 460px; object-fit: cover; margin: 0 auto; filter: brightness(0.65);">
+            <div
+                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff; text-align: center; width: 100%; padding: 0 20px;">
+                <h2
+                    style="font-size: 2.8rem; font-weight: 700; margin-bottom: 16px; letter-spacing: 0.05em; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+                    吉橋研究室</h2>
+                <p
+                    style="font-size: 1.1rem; font-weight: 500; line-height: 1.8; letter-spacing: 0.05em; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+                    名古屋大学大学院工学研究科　総合エネルギー工学専攻<br>
+                    エネルギーシステム工学講座　原子核計測工学グループ
+                </p>
+            </div>
+        </div>
+
+        <main class="site-main">
+            <div class="container">
+
+                <section class="welcome-section reveal" style="text-align: center;">
+                    <h2 style="font-size: 2rem; margin-bottom: 30px;">ようこそ吉橋研のHPへ！</h2>
+                    <p style="font-size: 1.2rem; line-height: 2; margin-bottom: 24px;">
+                        吉橋研究室では、悪者にされがちな放射線を有効活用すべく、様々な角度からアプローチしています。<br>
+                        特に放射線を<strong>医療・エネルギー</strong>の分野へ活用することを目指しています。
+                    </p>
+                    <p style="font-size: 1.2rem; line-height: 2; margin-bottom: 24px;">
+                        放射線を正しく有効に活用するためには、その素性を正しく「測る」必要があります。<br>
+                        また、利用するために都合の良い素性の「放射線を発生」させる方法を考える必要があります。<br>
+                        そこで、放射線を「測る」ことと「発生させる」ことについて研究を行っています。<br>
+                    </p>
+
+                    <a href="study.html"
+                        style="display: inline-block; margin-top: 16px; margin-bottom: 40px; text-decoration: underline; color: var(--color-primary); font-weight: bold; font-size: 1.3rem;">研究内容はこちら</a>
+
+                    <p style="font-size: 1.2rem; line-height: 2; margin-bottom: 24px;">
+                        研究室見学も随時受け付けておりますので、お気軽に研究室に遊びに来て下さい。
+                    </p>
+                    <a href="access.html" class="cta-btn">お問い合わせはこちら</a>
+                </section>
+
+                <section class="map-section reveal" style="text-align: center; width: 100%;">
+                    <div style="background: #f2f5f7; display: inline-flex; justify-content: center; width: 100%;">
+                        <iframe src="tour.html"
+                            style="width: 100%; aspect-ratio: 1120 / 780; border: none; overflow: hidden;"
+                            scrolling="no"></iframe>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+
+        <footer class="site-footer">
+            <div class="footer-inner">
+                <span class="footer-brand">Yoshihashi Laboratory</span>
+                <span>&copy; Yoshihashi Group, Nagoya University. All rights reserved.</span>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="static/js/main.js"></script>
+</body>
+
+</html>

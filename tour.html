@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japan Research Network - Advanced Map</title>
+    <!-- D3.js と TopoJSON の読み込み -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson-client@3"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f2f5f7;
+            font-family: 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            gap: 16px;
+            padding: 40px 20px;
+        }
+
+        #title {
+            color: #1b3a53;
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 0.3em;
+            opacity: 0.9;
+            text-shadow: 0 0 10px rgba(136, 221, 204, 0.4);
+        }
+
+        #stage {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            aspect-ratio: 1120 / 630;
+            background: #0d3d4e;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid rgba(40, 180, 150, 0.3);
+            box-shadow: 0 0 60px rgba(30, 160, 130, 0.15), 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        /* ローディング画面 */
+        #loading {
+            position: absolute;
+            inset: 0;
+            background: rgba(9, 34, 48, 0.95);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #88ddcc;
+            font-size: 14px;
+            letter-spacing: 0.1em;
+            transition: opacity 0.6s ease;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(136, 221, 204, 0.2);
+            border-top-color: #88ddcc;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        #map-svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ── City markers ── */
+        .city {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            z-index: 5;
+        }
+
+        .city-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid;
+            background: rgba(0, 0, 0, 0.6);
+            transition: all 0.4s;
+            box-shadow: 0 0 8px currentColor;
+        }
+
+        .city.home .city-dot {
+            width: 16px;
+            height: 16px;
+        }
+
+        .city-label {
+            font-size: 16px;
+            font-weight: bold;
+            color: rgba(220, 255, 240, 0.7);
+            white-space: nowrap;
+            text-align: center;
+            line-height: 1.4;
+            transition: all 0.4s;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9), 0 0 8px rgba(0, 0, 0, 0.8);
+        }
+
+        .city.active .city-dot {
+            animation: city-pulse 1.1s ease-in-out infinite;
+        }
+
+        .city.active .city-label {
+            color: rgba(255, 255, 255, 1);
+            font-weight: 700;
+            font-size: 18px;
+            text-shadow: 0 0 8px currentColor;
+        }
+
+        @keyframes city-pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.6);
+                opacity: 0.7;
+            }
+        }
+
+        /* ── Avatar ── */
+        #avatar {
+            position: absolute;
+            width: 32px;
+            height: 40px;
+            transform: translate(-50%, -100%);
+            transition: left 2.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+                top 2.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 20;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.8));
+        }
+
+        #avatar.walking {
+            animation: walk-anim 0.32s infinite alternate ease-in-out;
+        }
+
+        #avatar.idle {
+            animation: idle-anim 2.5s infinite alternate ease-in-out;
+        }
+
+        @keyframes walk-anim {
+            from {
+                transform: translate(-50%, -100%) rotate(-6deg) translateY(0);
+            }
+
+            to {
+                transform: translate(-50%, -100%) rotate(6deg) translateY(-6px);
+            }
+        }
+
+        @keyframes idle-anim {
+            from {
+                transform: translate(-50%, -100%) translateY(0);
+            }
+
+            to {
+                transform: translate(-50%, -100%) translateY(-5px);
+            }
+        }
+
+        /* ── Speech bubble ── */
+        #bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            color: #0d1a2e;
+            border-radius: 8px;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 30;
+            transform: translateX(-50%) translateY(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        #bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(255, 255, 255, 0.95);
+        }
+
+        #bubble.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ── Particles ── */
+        .pt {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            animation: pt-rise 1.5s ease-out forwards;
+        }
+
+        @keyframes pt-rise {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.1);
+            }
+        }
+
+        /* ── Info bar ── */
+        #infobar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: linear-gradient(0deg, rgba(5, 20, 28, 0.96) 0%, rgba(5, 20, 28, 0.7) 60%, transparent 100%);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            justify-content: space-between;
+            z-index: 10;
+        }
+
+        #city-name {
+            font-size: 16px;
+            font-weight: 800;
+            color: #66ddbb;
+            letter-spacing: 0.05em;
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        #exp-text {
+            font-size: 12px;
+            color: rgba(140, 220, 190, 0.8);
+            margin-top: 4px;
+        }
+
+        #route-dots {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .rd {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(80, 200, 150, 0.15);
+            border: 1.5px solid rgba(80, 200, 150, 0.4);
+            transition: all 0.4s;
+        }
+
+        .rd.active {
+            background: #44ccaa;
+            border-color: #44ccaa;
+            box-shadow: 0 0 10px #44ccaa;
+            transform: scale(1.3);
+        }
+
+        .rd.visited {
+            background: rgba(80, 200, 150, 0.5);
+            border-color: rgba(80, 200, 150, 0.6);
+        }
+
+        /* ── Scan line overlay ── */
+        #stage::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 0, 0, 0.04) 2px,
+                    rgba(0, 0, 0, 0.04) 4px);
+            pointer-events: none;
+            z-index: 25;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="title">吉橋研究室の研究拠点</div>
+
+    <div id="stage">
+
+        <!-- ローディング画面 -->
+        <div id="loading">
+            <div class="spinner"></div>
+            <div>Topological Map Loading...</div>
+        </div>
+
+        <!-- ── MAP SVG ── -->
+        <svg id="map-svg" viewBox="0 0 1120 630" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <radialGradient id="ocean-grad" cx="50%" cy="45%" r="65%">
+                    <stop offset="0%" stop-color="#2a7e9c" />
+                    <stop offset="100%" stop-color="#0a3044" />
+                </radialGradient>
+
+                <!-- 単色（緑）マップ用のグラデーションと影 -->
+                <linearGradient id="land-grad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#64be48" />
+                    <stop offset="100%" stop-color="#3a6e22" />
+                </linearGradient>
+                <filter id="isle-shadow" x="-12%" y="-12%" width="124%" height="130%">
+                    <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="rgba(0,0,0,0.50)" />
+                </filter>
+
+                <pattern id="waves" width="80" height="40" patternUnits="userSpaceOnUse">
+                    <path d="M 0 20 Q 20 15, 40 20 Q 60 25, 80 20" fill="none" stroke="rgba(255,255,255,0.03)"
+                        stroke-width="1" />
+                </pattern>
+            </defs>
+
+            <!-- ── Ocean ── -->
+            <rect width="1120" height="630" fill="url(#ocean-grad)" />
+            <rect width="1120" height="630" fill="url(#waves)" />
+
+            <!-- ── D3 Map Layer ── -->
+            <g id="map-layer"></g>
+
+            <!-- ── Animated travel lines ── -->
+            <g id="travel-lines"></g>
+
+            <!-- ── Compass ── -->
+            <g transform="translate(1060, 55)" opacity="0.6">
+                <line x1="0" y1="-14" x2="0" y2="14" stroke="#88ddcc" stroke-width="1.5" />
+                <line x1="-14" y1="0" x2="14" y2="0" stroke="#88ddcc" stroke-width="1.5" />
+                <polygon points="0,-16 4,-5 0,-8 -4,-5" fill="#88ddcc" />
+                <text y="-20" text-anchor="middle" fill="#88ddcc" font-size="10" font-weight="700">N</text>
+            </g>
+        </svg>
+
+        <!-- Cities -->
+        <div id="cities-container"></div>
+
+        <!-- Avatar -->
+        <div id="avatar" class="idle">
+            <svg viewBox="0 0 32 40" xmlns="http://www.w3.org/2000/svg">
+                <rect x="7" y="17" width="18" height="15" rx="4" fill="#f0f4ff" />
+                <rect x="11" y="19" width="10" height="12" rx="2" fill="#4a9eff" opacity="0.6" />
+                <polygon points="14,17 11,19 11,24 14,21" fill="#dde4ff" />
+                <polygon points="18,17 21,19 21,24 18,21" fill="#dde4ff" />
+                <circle cx="16" cy="12" r="8" fill="#ffd6a5" />
+                <ellipse cx="16" cy="6.5" rx="7" ry="4" fill="#5c3a1e" />
+                <rect x="9" y="6" width="14" height="6" rx="2" fill="#5c3a1e" />
+                <circle cx="13" cy="12" r="1.4" fill="#1a1a2e" />
+                <circle cx="19" cy="12" r="1.4" fill="#1a1a2e" />
+                <rect x="10.5" y="10" width="5" height="4" rx="2" fill="none" stroke="#88ccff" stroke-width="0.9" />
+                <rect x="16.5" y="10" width="5" height="4" rx="2" fill="none" stroke="#88ccff" stroke-width="0.9" />
+                <line x1="15.5" y1="12" x2="16.5" y2="12" stroke="#88ccff" stroke-width="0.9" />
+                <path d="M 13 15 Q 16 17 19 15" stroke="#b07040" stroke-width="1.1" fill="none"
+                    stroke-linecap="round" />
+                <rect x="10" y="30" width="5" height="8" rx="2.5" fill="#2a3a6a" />
+                <rect x="17" y="30" width="5" height="8" rx="2.5" fill="#2a3a6a" />
+                <rect x="22" y="20" width="5" height="6" rx="1" fill="#ffd" stroke="#ccc" stroke-width="0.5" />
+                <line x1="23" y1="22" x2="26" y2="22" stroke="#aaa" stroke-width="0.6" />
+                <line x1="23" y1="23.5" x2="26" y2="23.5" stroke="#aaa" stroke-width="0.6" />
+            </svg>
+        </div>
+
+        <!-- Speech bubble -->
+        <div id="bubble"></div>
+
+        <!-- Particles -->
+        <div id="particles-container"></div>
+
+        <!-- Info bar -->
+        <div id="infobar">
+            <div>
+                <div id="city-name">システム初期化中...</div>
+                <div id="exp-text">Topological Map Loading...</div>
+            </div>
+            <div id="route-dots"></div>
+        </div>
+
+    </div>
+
+    <script>
+        // ── 1. 座標と実験データ ──
+        const CITIES = [
+            {
+                id: 'nagoya', lon: 136.9066, lat: 35.1815, label: '名古屋', emoji: '🏭',
+                color: '#ffd700', isHome: true,
+                exp: { type: 'NUANS', msgs: ['加速器中性子源', '実験中…', '解析中…'], particles: ['#ffd700', '#ffaa00', '#fff176', '#ffe066'] }
+            },
+            {
+                id: 'tokyo', lon: 140.4851, lat: 36.4566, label: '那珂（茨城）', emoji: '⚡',
+                color: '#4a9eff',
+                exp: { type: 'JT-60SA共同研究', msgs: ['JT-60SA', '計算中...', '測定中...'], particles: ['#4a9eff', '#88ccff', '#b3e0ff', '#ffffff'] }
+            },
+            {
+                id: 'sendai', lon: 140.8719, lat: 38.2682, label: '仙台', emoji: '🌊',
+                color: '#00e5cc',
+                exp: { type: '東北大学先端量子ビーム科学研究センター', msgs: ['RI照射施設', '実験中...', '解析中...'], particles: ['#00e5cc', '#40ffee', '#88ffee', '#ccfffb'] }
+            },
+            {
+                id: 'aomori', lon: 140.7400, lat: 40.8244, label: '青森', emoji: '❄️',
+                color: '#b3d9ff',
+                exp: { type: 'IFMIF', msgs: ['国際核融合材料照射施設', '熱解析中...', '実験中...'], particles: ['#00e5cc', '#40ffee', '#88ffee', '#ccfffb'] }
+            },
+            {
+                // 福井: 京都との被りを防ぐため、意図的に少し北(latを増加)へデフォルメ
+                id: 'fukui', lon: 136.22, lat: 36.60, label: '福井', emoji: '🦕',
+                color: '#88ff66',
+                exp: { type: '若狭湾エネルギーセンター', msgs: ['α/陽子線照射場', '実験中...', '解析中...'], particles: ['#88ff66', '#aaff88', '#ccffaa', '#bbff99'] }
+            },
+            {
+                // 京都: 被りを防ぐため、意図的に少し北東(lon, latを増加)へデフォルメ
+                id: 'kyoto', lon: 135.95, lat: 35.35, label: '京都', emoji: '🌸',
+                color: '#ff88cc',
+                exp: { type: '京都大学原子炉（KUR)', msgs: ['原子炉中性子源', '実験中...', '解析中...'], particles: ['#ff88cc', '#ffaadd', '#ffccee', '#ffbbdd'] }
+            },
+            {
+                // 大阪: 被りを防ぐため、意図的に少し南西(lon, latを減少)へデフォルメ
+                id: 'osaka', lon: 135.20, lat: 34.40, label: '大阪', emoji: '🍱',
+                color: '#ff7755',
+                exp: { type: '近畿大学原子炉（UTR－KINKl）', msgs: ['原子炉中性子源', '実験中...', '解析中...'], particles: ['#ff7755', '#ffaa66', '#ffcc88', '#ffbb77'] }
+            },
+            {
+                id: 'fukuoka', lon: 130.4017, lat: 33.5902, label: '福岡', emoji: '🎓',
+                color: '#aa88ff',
+                exp: { type: '九州大学', msgs: ['渡辺賢一先生との共同研究', '実験中...', '解析中...'], particles: ['#aa88ff', '#cc99ff', '#ddaaff', '#eeccff'] }
+            },
+            {
+                id: 'korea', lon: 129.0300, lat: 35.1000, label: '韓国(釜山)拠点', emoji: '🌏',
+                color: '#ffcc44',
+                exp: { type: 'K-STAR', msgs: ['韓国の核融合試験炉', '実験中...', '解析中...'], particles: ['#ffcc44', '#ffee66', '#ffee99', '#ffdd55'] }
+            },
+        ];
+
+        // ルート設定
+        const ROUTE = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+        let step = 0;
+
+        // ── 2. 地図データのロードと D3 描画 (ズームアップ・不要エリアの除外) ──
+        async function initMap() {
+            const urls = [
+                "https://cdn.jsdelivr.net/npm/japan-map-js@1.0.1/dist/japan.topojson",
+                "https://raw.githubusercontent.com/dataofjapan/land/master/japan.topojson"
+            ];
+
+            let topo = null;
+            for (const url of urls) {
+                try {
+                    const res = await fetch(url);
+                    if (res.ok) { topo = await res.json(); break; }
+                } catch (e) { console.warn("Fetch failed:", url); }
+            }
+
+            if (!topo) return alert("地図データの読み込みに失敗しました。");
+
+            const objKey = Object.keys(topo.objects)[0];
+            const geometries = topo.objects[objKey].geometries;
+
+            // 北海道(JCODE: 1)と沖縄(JCODE: 47)を除外して、本州〜九州の形状だけを取得
+            const mainGeometries = geometries.filter(g => {
+                const prefId = parseInt(g.id || g.properties?.id || g.properties?.JCODE || g.properties?.pref, 10);
+                return prefId !== 1 && prefId !== 47;
+            });
+
+            const mergedFeatures = [{ type: "Feature", geometry: topojson.merge(topo, mainGeometries) }];
+
+            // プロジェクション設定 (本州〜九州、韓国が画面いっぱいに収まるようにズーム)
+            const projection = d3.geoMercator();
+            const boundsFeature = {
+                type: "FeatureCollection",
+                features: [
+                    { type: "Feature", geometry: { type: "Point", coordinates: [128.0, 41.8] } }, // 左上 (韓国西部 〜 青森北部)
+                    { type: "Feature", geometry: { type: "Point", coordinates: [142.0, 31.0] } }  // 右下 (東北東部 〜 九州南部)
+                ]
+            };
+            projection.fitExtent([[20, 20], [1100, 610]], boundsFeature);
+            const path = d3.geoPath().projection(projection);
+
+            const mapLayer = d3.select("#map-layer");
+
+            // 本土の描画 (緑色のグラデーション + 境界線 + ドロップシャドウ)
+            mapLayer.selectAll(".main-area")
+                .data(mergedFeatures).enter().append("path")
+                .attr("d", path)
+                .attr("fill", "url(#land-grad)")
+                .attr("stroke", "#72c050")
+                .attr("stroke-width", 1.8)
+                .attr("stroke-linejoin", "round")
+                .attr("filter", "url(#isle-shadow)");
+
+            // 緯度経度から画面の X, Y 座標を算出して CITIES に設定
+            CITIES.forEach(city => {
+                const [x, y] = projection([city.lon, city.lat]);
+                city.x = x; city.y = y;
+            });
+
+            // 韓国拠点の海の上でのレーダー風演出
+            const koreaBase = CITIES.find(c => c.id === 'korea');
+            if (koreaBase) {
+                const radar = mapLayer.append("g").attr("transform", `translate(${koreaBase.x}, ${koreaBase.y})`);
+                radar.append("circle").attr("r", 20).attr("fill", "rgba(255, 204, 68, 0.1)").attr("stroke", "rgba(255, 204, 68, 0.3)").attr("stroke-dasharray", "2 4");
+                radar.append("circle").attr("r", 35).attr("fill", "none").attr("stroke", "rgba(255, 204, 68, 0.2)").attr("stroke-dasharray", "4 6");
+                radar.append("text").attr("x", -20).attr("y", -40).attr("fill", "rgba(255, 204, 68, 0.6)").attr("font-size", "9").text("GLOBAL LINK");
+            }
+
+            // ローディング画面を隠す
+            const loading = document.getElementById("loading");
+            loading.style.opacity = 0;
+            setTimeout(() => {
+                loading.remove();
+                startTour(); // 地図描画完了後にツアー開始
+            }, 600);
+        }
+
+        // ── 3. ツアーアニメーションロジック ──
+        const avatar = document.getElementById('avatar');
+        const bubble = document.getElementById('bubble');
+        const cityNameEl = document.getElementById('city-name');
+        const expTextEl = document.getElementById('exp-text');
+        const ptContainer = document.getElementById('particles-container');
+        const routeDots = document.getElementById('route-dots');
+        const citiesCont = document.getElementById('cities-container');
+        const travelLines = document.getElementById('travel-lines');
+
+        function startTour() {
+            // DOM要素の生成
+            CITIES.forEach((c, i) => {
+                const wrap = document.createElement('div');
+                wrap.className = 'city' + (c.isHome ? ' home' : '');
+                wrap.id = 'city-' + i;
+                wrap.style.left = (c.x / 1120 * 100) + '%';
+                wrap.style.top = (c.y / 630 * 100) + '%';
+
+                const dot = document.createElement('div');
+                dot.className = 'city-dot';
+                dot.style.borderColor = c.color;
+                dot.style.color = c.color;
+                dot.style.background = c.color + '44';
+
+                const lbl = document.createElement('div');
+                lbl.className = 'city-label';
+                lbl.style.color = c.color; // 文字も少し色づける
+                lbl.innerHTML = c.emoji + '<br>' + c.label;
+
+                wrap.appendChild(dot);
+                wrap.appendChild(lbl);
+                citiesCont.appendChild(wrap);
+            });
+
+            ROUTE.forEach((_, i) => {
+                const d = document.createElement('div');
+                d.className = 'rd';
+                d.id = 'rd-' + i;
+                routeDots.appendChild(d);
+            });
+
+            // 初期位置設定
+            const initCity = CITIES[ROUTE[0]];
+            avatar.style.left = (initCity.x / 1120 * 100) + '%';
+            avatar.style.top = (initCity.y / 630 * 100) + '%';
+
+            setActiveCity(ROUTE[0]);
+            updateRouteDots(0);
+            setTimeout(() => doExperiment(ROUTE[0]), 800);
+        }
+
+        /* ── アニメーション・ヘルパー群 ── */
+        function setActiveCity(idx) {
+            document.querySelectorAll('.city').forEach((el, i) => el.classList.toggle('active', i === idx));
+        }
+
+        function updateRouteDots(s) {
+            document.querySelectorAll('.rd').forEach((d, i) => {
+                d.classList.toggle('active', i === s);
+                d.classList.toggle('visited', i < s);
+            });
+        }
+
+        function showBubble(text, x, y) {
+            bubble.textContent = text;
+            bubble.style.left = (Math.max(80, Math.min(1040, x)) / 1120 * 100) + '%';
+            bubble.style.top = ((y - 65) / 630 * 100) + '%';
+            bubble.classList.add('show');
+            setTimeout(() => bubble.classList.remove('show'), 1800);
+        }
+
+        function spawnParticles(x, y, colors) {
+            for (let i = 0; i < 24; i++) {
+                const p = document.createElement('div');
+                p.className = 'pt';
+                const size = 4 + Math.random() * 12;
+                const angle = Math.random() * Math.PI * 2;
+                const dist = 40 + Math.random() * 60;
+                const dx = Math.cos(angle) * dist;
+                const dy = Math.sin(angle) * dist - 40;
+                p.style.cssText = `
+                    width:${size}px; height:${size}px;
+                    left:${x / 1120 * 100}%; top:${y / 630 * 100}%;
+                    background:${colors[Math.floor(Math.random() * colors.length)]};
+                    --dx:${dx}px; --dy:${dy}px;
+                    animation-delay:${Math.random() * 0.25}s;
+                    animation-duration:${1.2 + Math.random() * 0.8}s;
+                    box-shadow: 0 0 ${size}px ${colors[0]};
+                `;
+                ptContainer.appendChild(p);
+                setTimeout(() => p.remove(), 2500);
+            }
+        }
+
+        function drawTravelLine(from, to, color) {
+            const len = Math.hypot(to.x - from.x, to.y - from.y);
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', from.x); line.setAttribute('y1', from.y);
+            line.setAttribute('x2', to.x); line.setAttribute('y2', to.y);
+            line.setAttribute('stroke', color);
+            line.setAttribute('stroke-width', '2.5');
+            line.setAttribute('stroke-linecap', 'round');
+            line.setAttribute('opacity', '0.95');
+            line.style.strokeDasharray = len;
+            line.style.strokeDashoffset = len;
+            line.style.transition = 'stroke-dashoffset 2.2s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            travelLines.appendChild(line);
+
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                line.style.strokeDashoffset = '0';
+            }));
+
+            setTimeout(() => {
+                line.style.transition = 'opacity 0.8s';
+                line.style.opacity = '0.15';
+            }, 3500);
+            setTimeout(() => line.remove(), 5000);
+        }
+
+        /* ── 実験シーケンス ── */
+        function doExperiment(cityIdx) {
+            const city = CITIES[cityIdx];
+            const exp = city.exp;
+            let mIdx = 0;
+
+            cityNameEl.textContent = city.emoji + '  ' + city.label + '  —  ' + exp.type;
+            cityNameEl.style.color = city.color;
+            cityNameEl.style.textShadow = `0 0 12px ${city.color}`;
+
+            const tick = () => {
+                if (mIdx >= exp.msgs.length) {
+                    spawnParticles(city.x, city.y, exp.particles);
+                    expTextEl.textContent = '実験完了 ✓  →  次の拠点へ移動中...';
+                    setTimeout(advance, 2200);
+                    return;
+                }
+                showBubble(exp.msgs[mIdx], city.x, city.y);
+                expTextEl.textContent = exp.msgs[mIdx];
+                mIdx++;
+                setTimeout(tick, 2000);
+            };
+            setTimeout(tick, 600);
+        }
+
+        /* ── 次の都市へ移動 ── */
+        function advance() {
+            const prevStep = step;
+            step = (step + 1) % ROUTE.length;
+
+            const fromCity = CITIES[ROUTE[prevStep]];
+            const toCity = CITIES[ROUTE[step]];
+
+            drawTravelLine(fromCity, toCity, toCity.color);
+
+            avatar.classList.remove('idle');
+            avatar.classList.add('walking');
+            avatar.style.left = (toCity.x / 1120 * 100) + '%';
+            avatar.style.top = (toCity.y / 630 * 100) + '%';
+
+            cityNameEl.textContent = fromCity.label + '  →  ' + toCity.label;
+            cityNameEl.style.color = '#88ddcc';
+            cityNameEl.style.textShadow = 'none';
+            expTextEl.textContent = '移動中...';
+
+            setTimeout(() => {
+                avatar.classList.remove('walking');
+                avatar.classList.add('idle');
+                setActiveCity(ROUTE[step]);
+                updateRouteDots(step);
+                doExperiment(ROUTE[step]);
+            }, 2400);
+        }
+
+        // 初期化実行 (地図のロードからスタート)
+        window.addEventListener('DOMContentLoaded', initMap);
+
+    </script>
+</body>
+
+</html>

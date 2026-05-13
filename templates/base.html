@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!-- ============================================================
+     base.html — Django基底テンプレート
+     Django移行時: {% extends "base.html" %} で各ページから継承
+     ============================================================ -->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Django: <title>{% block title %}吉橋研究室{% endblock %} | Yoshihashi Laboratory</title> -->
+  <title><!-- BLOCK:title -->吉橋研究室<!-- /BLOCK:title --> | Yoshihashi Laboratory</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Django: <link rel="stylesheet" href="{% static 'css/style.css' %}"> -->
+  <link rel="stylesheet" href="../static/css/style.css">
+
+  <!-- BLOCK:extra_head (Django: {% block extra_head %}{% endblock %}) -->
+</head>
+<body>
+<div class="site-wrapper">
+
+  <!-- Django: {% include "lab/_header.html" %} -->
+  <!-- INCLUDE:_header.html -->
+
+  <!-- BLOCK:body_pre (Django: {% block body_pre %}{% endblock %}) -->
+
+  <main class="site-main">
+    <div class="container">
+      <!-- BLOCK:content (Django: {% block content %}{% endblock %}) -->
+    </div>
+  </main>
+
+  <!-- Django: {% include "lab/_footer.html" %} -->
+  <!-- INCLUDE:_footer.html -->
+
+</div>
+
+<!-- Django: <script src="{% static 'js/main.js' %}"></script> -->
+<script src="../static/js/main.js"></script>
+
+<!-- BLOCK:extra_scripts (Django: {% block extra_scripts %}{% endblock %}) -->
+</body>
+</html>
