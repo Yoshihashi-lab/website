@@ -1334,13 +1334,17 @@ details.news-item[open] {
 
   /* Hamburger menu: keep 3 spans stacked vertically (≡), enlarge for touch */
   .nav-toggle {
-    padding: 9px 11px;
+    padding: 6px 8px;
+    /* ← ボタンの枠（余白）を小さくしました */
   }
 
   .nav-toggle span {
-    width: 24px;
-    height: 2.5px;
-    margin: 5px 0;
+    width: 20px;
+    /* ← 線の横幅を短くしました */
+    height: 2px;
+    /* ← 線の太さを少し細くしました */
+    margin: 4px 0;
+    /* ← 線と線の隙間を狭くしました */
   }
 
   .cta-btn {
