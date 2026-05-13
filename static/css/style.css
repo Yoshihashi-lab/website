@@ -1126,23 +1126,37 @@ details.news-item[open] {
   }
 
   .site-title {
-    font-size: 1.4rem;
-    padding-right: 52px;
+    font-size: 1.15rem;
+    padding-right: 150px;
+    /* clear lang-switch + nav-toggle */
+    line-height: 1.35;
   }
 
   .header-inner {
     position: relative;
-    padding: 14px 18px 0;
+    padding: 14px 16px 0;
   }
 
   /* lang-switch の位置調整（nav-toggle の左に配置） */
   .lang-switch {
-    top: 16px;
-    right: 72px;
+    top: 14px;
+    right: 64px;
+    font-size: 0.7rem;
+    gap: 3px;
+  }
+
+  /* Lang buttons in header are compact – override the 44px tap target rule */
+  .lang-switch .lang-btn {
+    min-height: 0 !important;
+    padding: 5px 9px;
+    font-size: 0.7rem;
+    line-height: 1;
   }
 
   .nav-toggle {
     display: block;
+    top: 12px;
+    right: 14px;
   }
 
   .site-nav ul {
@@ -1294,6 +1308,7 @@ details.news-item[open] {
    Touch targets, member/faculty cards, image safety, overflow.
    ============================================================ */
 @media (max-width: 640px) {
+
   /* Prevent any horizontal scroll on phones */
   html,
   body {
@@ -1388,7 +1403,29 @@ details.news-item[open] {
   }
 
   .site-title {
-    font-size: 1.2rem;
+    font-size: 1rem;
+    padding-right: 130px;
+    line-height: 1.3;
+  }
+
+  .lang-switch {
+    right: 56px;
+    top: 13px;
+  }
+
+  .lang-switch .lang-btn {
+    padding: 4px 7px !important;
+    font-size: 0.65rem !important;
+  }
+
+  .nav-toggle {
+    top: 10px;
+    right: 12px;
+    padding: 6px 8px;
+  }
+
+  .nav-toggle span {
+    width: 18px;
   }
 
   .cta-btn {
@@ -1404,6 +1441,7 @@ details.news-item[open] {
    sizing wins on small screens for every HTML page.
    ============================================================ */
 @media (max-width: 640px) {
+
   /* ----- Home page key visual (index.html, en/index.html) ----- */
   .keyvisual img[style] {
     height: 240px !important;
@@ -1426,9 +1464,11 @@ details.news-item[open] {
 
   /* ----- Welcome section (index.html, en/index.html) ----- */
   .welcome-section h2[style] {
-    font-size: 1.4rem !important;
-    margin-bottom: 18px !important;
+    font-size: 1.25rem !important;
+    margin-bottom: 16px !important;
     line-height: 1.4 !important;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
 
   .welcome-section p[style] {
@@ -1472,6 +1512,7 @@ details.news-item[open] {
 }
 
 @media (max-width: 400px) {
+
   /* Even smaller phones */
   .keyvisual img[style] {
     height: 200px !important;
@@ -1486,7 +1527,9 @@ details.news-item[open] {
   }
 
   .welcome-section h2[style] {
-    font-size: 1.25rem !important;
+    font-size: 1.1rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 12px !important;
   }
 
   .welcome-section p[style] {
