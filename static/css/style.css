@@ -167,6 +167,7 @@ ul {
   font-weight: 700;
   font-size: 0.76rem;
   letter-spacing: 0.06em;
+  text-decoration: none;
   transition: background var(--transition), color var(--transition), border-color var(--transition);
 }
 
@@ -1321,15 +1322,25 @@ details.news-item[open] {
     height: auto;
   }
 
-  /* Touch-friendly tap targets */
+  /* Touch-friendly tap targets — but NOT .nav-toggle (its 3 spans need to stack)
+     and NOT .lang-btn (already sized appropriately in header) */
   .cta-btn,
-  .lang-btn,
-  .nav-toggle,
   .site-nav li a {
     min-height: 44px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+  }
+
+  /* Hamburger menu: keep 3 spans stacked vertically (≡), enlarge for touch */
+  .nav-toggle {
+    padding: 9px 11px;
+  }
+
+  .nav-toggle span {
+    width: 24px;
+    height: 2.5px;
+    margin: 5px 0;
   }
 
   .cta-btn {
