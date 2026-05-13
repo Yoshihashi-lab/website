@@ -1221,6 +1221,49 @@ details.news-item[open] {
   .site-main {
     padding: 36px 0 52px;
   }
+
+  /* ===== Study cards — mobile tuning ===== */
+  .study-grid {
+    gap: 22px;
+  }
+
+  .study-card-header {
+    padding: 14px 18px;
+  }
+
+  .study-card-number {
+    font-size: 0.85rem;
+    margin-bottom: 3px;
+  }
+
+  .study-card-title {
+    font-size: 1.15rem;
+    line-height: 1.45;
+  }
+
+  /* Inline-styled spans inside .study-card-title need !important to override */
+  .study-card-title span {
+    font-size: 0.95rem !important;
+    display: inline-block;
+    margin-top: 4px;
+  }
+
+  .study-card-body {
+    padding: 18px 20px;
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .study-card-figure {
+    padding: 10px;
+    min-height: auto;
+  }
+
+  .study-card-figure img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 @media (max-width: 400px) {
@@ -1230,5 +1273,126 @@ details.news-item[open] {
 
   .faculty-grid {
     grid-template-columns: 1fr;
+  }
+
+  .study-card-title {
+    font-size: 1.05rem;
+  }
+
+  .study-card-title span {
+    font-size: 0.88rem !important;
+  }
+
+  .study-card-body {
+    padding: 16px 18px;
+    font-size: 0.95rem;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — GLOBAL MOBILE POLISH (≤ 640px)
+   Touch targets, member/faculty cards, image safety, overflow.
+   ============================================================ */
+@media (max-width: 640px) {
+  /* Prevent any horizontal scroll on phones */
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Global image safety net — no image overflows its container */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Touch-friendly tap targets */
+  .cta-btn,
+  .lang-btn,
+  .nav-toggle,
+  .site-nav li a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cta-btn {
+    padding: 12px 28px;
+    font-size: 1rem;
+  }
+
+  /* Member / faculty cards become more compact, drop square aspect ratio */
+  .faculty-card,
+  .member-card {
+    aspect-ratio: auto;
+    padding: 22px 18px;
+  }
+
+  .faculty-card .member-avatar {
+    width: 84px;
+    height: 84px;
+    font-size: 1.7rem;
+    margin-bottom: 12px;
+  }
+
+  .member-avatar {
+    width: 68px;
+    height: 68px;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+  }
+
+  /* Map / access page */
+  .access-info {
+    padding: 18px 20px;
+  }
+
+  .map-container iframe,
+  .map-section iframe {
+    width: 100%;
+    height: 280px;
+  }
+
+  /* Generic card padding */
+  .card {
+    padding: 20px;
+  }
+
+  /* Long tables / preformatted text — allow horizontal scroll inside */
+  table,
+  pre {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  /* Headings tighten up */
+  h1 {
+    font-size: 1.6rem;
+    line-height: 1.3;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    line-height: 1.35;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — SMALL PHONES (≤ 400px) extras
+   ============================================================ */
+@media (max-width: 400px) {
+  .container {
+    padding: 0 14px;
+  }
+
+  .site-title {
+    font-size: 1.2rem;
+  }
+
+  .cta-btn {
+    width: 100%;
+    padding: 14px 20px;
   }
 }
