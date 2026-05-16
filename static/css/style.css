@@ -148,6 +148,28 @@ ul {
   text-decoration: none;
 }
 
+/* tour.html を埋め込む iframe — スマホでは縦長レイアウトに対応 */
+.tour-iframe {
+  width: 100%;
+  aspect-ratio: 1120 / 780;
+  border: none;
+  overflow: hidden;
+  display: block;
+}
+
+@media (max-width: 640px) {
+  .tour-iframe {
+    /* モバイル時は tour.html のステージが縦長になる（マップ + 情報バー） */
+    aspect-ratio: 1120 / 1050;
+  }
+}
+
+@media (max-width: 400px) {
+  .tour-iframe {
+    aspect-ratio: 1120 / 1100;
+  }
+}
+
 .site-subtitle {
   font-size: 0.76rem;
   color: var(--color-text-light);

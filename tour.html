@@ -48,6 +48,12 @@
             box-shadow: 0 0 60px rgba(30, 160, 130, 0.15), 0 20px 60px rgba(0, 0, 0, 0.6);
         }
 
+        /* マップ本体エリア (デスクトップではstageを覆う、モバイルでは上部に配置) */
+        #map-area {
+            position: absolute;
+            inset: 0;
+        }
+
         /* ローディング画面 */
         #loading {
             position: absolute;
@@ -315,7 +321,8 @@
 
         /* ============================================================
            MOBILE — make the map readable on small screens (≤ 640px)
-           Maximize stage size, shrink chrome (title/info bar/labels).
+           Stage becomes auto-height: map (1120/630) + infobar stacked
+           so the bottom info text never overlaps city labels.
            ============================================================ */
         @media (max-width: 640px) {
             body {
@@ -331,16 +338,25 @@
             }
 
             #stage {
-                /* Stage grows to nearly full viewport height while
-                   still constrained by viewport width. The browser
-                   picks the smaller of width/aspect-ratio vs max-height. */
+                /* 縦方向は中身に合わせる（マップ + infobar 分） */
                 width: 100%;
-                aspect-ratio: 1120 / 630;
-                max-height: calc(100vh - 80px);
+                aspect-ratio: auto;
+                max-height: none;
+                display: flex;
+                flex-direction: column;
                 border-radius: 12px;
                 border-width: 1px;
                 box-shadow: 0 0 30px rgba(30, 160, 130, 0.15),
                     0 10px 30px rgba(0, 0, 0, 0.6);
+            }
+
+            /* マップ本体は flow に戻し、上部に固定アスペクトで配置 */
+            #map-area {
+                position: relative;
+                inset: auto;
+                width: 100%;
+                aspect-ratio: 1120 / 630;
+                flex: 0 0 auto;
             }
 
             /* Loading screen text */
@@ -396,12 +412,19 @@
                 border-width: 5px;
             }
 
-            /* Info bar — slimmer, smaller text, allow wrapping */
+            /* Info bar — マップの下にスタック（被り解消） */
             #infobar {
+                position: relative;
+                bottom: auto;
+                left: auto;
+                right: auto;
                 height: auto;
                 min-height: 48px;
-                padding: 8px 14px;
+                padding: 10px 14px;
                 gap: 10px;
+                /* オーバーレイではなくなったので、背景はソリッドに */
+                background: rgba(5, 20, 28, 0.96);
+                flex: 0 0 auto;
             }
 
             #city-name {
@@ -506,6 +529,9 @@
             <div>Topological Map Loading...</div>
         </div>
 
+        <!-- ── マップエリア（地図 + マーカー類） ── -->
+        <div id="map-area">
+
         <!-- ── MAP SVG ── -->
         <svg id="map-svg" viewBox="0 0 1120 630" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -581,6 +607,8 @@
 
         <!-- Particles -->
         <div id="particles-container"></div>
+
+        </div><!-- /#map-area -->
 
         <!-- Info bar -->
         <div id="infobar">
