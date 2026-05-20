@@ -1605,3 +1605,49 @@ details.news-item[open] {
     height: 240px !important;
   }
 }
+
+/* ============================================================
+   RESPONSIVE — BLOG CHAT UI
+   ============================================================ */
+@media (max-width: 640px) {
+  .chat-container[style] {
+    gap: 12px !important;
+    margin-top: 20px !important;
+  }
+  .chat-avatar[style] {
+    width: 80px !important;
+    height: 80px !important;
+    border-width: 2px !important;
+  }
+  .chat-bubble[style] {
+    padding: 16px 20px !important;
+    font-size: 1rem !important;
+    border-radius: 16px !important;
+  }
+  .chat-bubble[style] > div[style*="absolute"] {
+    border-top-width: 12px !important;
+    border-left-width: 12px !important;
+    left: -10px !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .chat-container[style] {
+    gap: 8px !important;
+  }
+  .chat-avatar[style] {
+    width: 56px !important;
+    height: 56px !important;
+  }
+  .chat-bubble[style] {
+    padding: 12px 14px !important;
+    font-size: 0.9rem !important;
+    border-radius: 12px !important;
+    line-height: 1.5 !important;
+  }
+  .chat-bubble[style] > div[style*="absolute"] {
+    border-top-width: 8px !important;
+    border-left-width: 8px !important;
+    left: -6px !important;
+  }
+}
