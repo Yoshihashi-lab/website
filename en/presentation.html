@@ -68,7 +68,7 @@
               <span class="archive-year-title">FY 2026</span>
             </div>
             <div class="archive-list">
-              <details class="archive-item" data-presenter="sachiko yoshihashi" data-tag="conference">
+              <details id="pres-20260522" class="archive-item" data-presenter="sachiko yoshihashi" data-tag="conference">
                 <summary class="archive-item-summary">
                   <div class="archive-item-meta">
                     <span class="archive-item-date">2026.05.22</span>
@@ -160,6 +160,24 @@
             filterArchive();
           });
         }
+
+        // URLのハッシュ（#id）を監視し、対象のアコーディオンを自動的に開く
+        function checkHashAndOpen() {
+          const hash = window.location.hash;
+          if (hash) {
+            const target = document.querySelector(hash);
+            if (target && target.tagName.toLowerCase() === 'details') {
+              target.open = true;
+              setTimeout(() => {
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }, 100);
+            }
+          }
+        }
+
+        // 初期ロード時およびハッシュ変更時に実行
+        checkHashAndOpen();
+        window.addEventListener('hashchange', checkHashAndOpen);
       });
     </script>
 

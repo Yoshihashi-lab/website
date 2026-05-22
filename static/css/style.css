@@ -506,10 +506,20 @@ ul {
   border-bottom: none;
 }
 
-/* details の open 状態 / div の hover */
+/* details の open 状態 / div や a の hover */
 .news-item:hover,
 details.news-item[open] {
   background-color: var(--color-surface-alt);
+}
+
+a.news-item {
+  color: inherit;
+  text-decoration: none;
+}
+
+a.news-item:hover .news-text {
+  color: var(--color-primary-mid);
+  text-decoration: underline;
 }
 
 /* <summary> 内レイアウト（expandable 版） */
