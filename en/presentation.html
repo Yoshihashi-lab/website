@@ -40,11 +40,245 @@
     </header>
 
     <main class="site-main">
-      <div class="container" style="text-align: center; padding: 150px 20px;">
-        <h2 style="font-size: 2rem; color: #8fa8b5; margin-bottom: 20px;">Updating...</h2>
-        <p style="color: #555;">This page is currently under construction. Please check back later.</p>
+      <div class="container">
+
+        <div class="page-header">
+          <h1>Presentation</h1>
+          <p class="page-header-sub">Presentation & Publication Records</p>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="archive-filter-section">
+          <div class="archive-filter-group">
+            <span class="archive-filter-label">Year Filter:</span>
+            <button class="archive-filter-btn active" data-year="all">All</button>
+            <button class="archive-filter-btn" data-year="2026">FY 2026</button>
+            <button class="archive-filter-btn" data-year="2025">FY 2025</button>
+            <button class="archive-filter-btn" data-year="2024">FY 2024</button>
+            <button class="archive-filter-btn" data-year="2023">FY 2023</button>
+          </div>
+          <div>
+            <input type="text" id="archive-search" class="archive-search-input" placeholder="Search by presenter or keyword...">
+          </div>
+        </div>
+
+        <!-- Presentations list -->
+        <div class="archive-container" id="archive-container">
+
+          <!-- FY 2026 -->
+          <div class="archive-group" data-group-year="2026">
+            <div class="archive-year-header">
+              <span class="archive-year-title">FY 2026</span>
+            </div>
+            <div class="archive-list">
+              <div class="archive-item" data-presenter="sachiko yoshihashi" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2026.05.22</span>
+                  <span class="archive-item-tag tag-conference">Oral</span>
+                </div>
+                <div class="archive-item-content">
+                  Prof. Sachiko Yoshihashi gave a presentation on "Introduction of NUANS and BNCT for companion animals" at the BNCT International Meeting at KUMATRI.
+                </div>
+              </div>
+              <div class="archive-item" data-presenter="kaito abe" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2026.05.20</span>
+                  <span class="archive-item-tag tag-conference">Oral</span>
+                </div>
+                <div class="archive-item-content">
+                  Mr. Kaito Abe gave a presentation on "Evaluation of intracellular boron distribution" at the Atomic Energy Society of Japan.
+                </div>
+              </div>
+              <div class="archive-item" data-presenter="hayato kanematsu" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2026.04.15</span>
+                  <span class="archive-item-tag tag-conference">Oral</span>
+                </div>
+                <div class="archive-item-content">
+                  Mr. Hayato Kanematsu gave a presentation on "Neutron field evaluation in fusion experimental devices" at the Japan Society of Applied Physics.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FY 2025 -->
+          <div class="archive-group" data-group-year="2025">
+            <div class="archive-year-header">
+              <span class="archive-year-title">FY 2025</span>
+            </div>
+            <div class="archive-list">
+              <div class="archive-item" data-presenter="kenta ohira" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2025.12.10</span>
+                  <span class="archive-item-tag tag-conference">Oral</span>
+                </div>
+                <div class="archive-item-content">
+                  Mr. Kenta Ohira gave a presentation on "Measurement of accelerator beams" at the Radiation Measurement Workshop.
+                </div>
+              </div>
+              <div class="archive-item" data-presenter="noritaka kawai" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2025.09.25</span>
+                  <span class="archive-item-tag tag-conference">Oral</span>
+                </div>
+                <div class="archive-item-content">
+                  Mr. Noritaka Kawai gave a presentation on "Elucidation of cell death processes in BNCT" at the Japan Radiation Research Society.
+                </div>
+              </div>
+              <div class="archive-item" data-presenter="akira niimi" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2025.06.18</span>
+                  <span class="archive-item-tag tag-conference">Oral</span>
+                </div>
+                <div class="archive-item-content">
+                  Ms. Akira Niimi gave a presentation on "Biological impact evaluation for boron neutron capture therapy" at the Japan Health Physics Society.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FY 2024 -->
+          <div class="archive-group" data-group-year="2024">
+            <div class="archive-year-header">
+              <span class="archive-year-title">FY 2024</span>
+            </div>
+            <div class="archive-list">
+              <div class="archive-item" data-presenter="satoru ebihara" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2024.11.22</span>
+                  <span class="archive-item-tag tag-conference">Oral</span>
+                </div>
+                <div class="archive-item-content">
+                  Mr. Satoru Ebihara gave a presentation on "Evaluation of intracellular boron distribution" at the Symposium on Radiation Chemistry.
+                </div>
+              </div>
+              <div class="archive-item" data-presenter="naoki nakayama" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2024.09.05</span>
+                  <span class="archive-item-tag tag-conference">Oral</span>
+                </div>
+                <div class="archive-item-content">
+                  Mr. Naoki Nakayama gave a presentation on "Neutron field design for BNCT" at the Japanese Society for Neutron Science.
+                </div>
+              </div>
+              <div class="archive-item" data-presenter="yu fujiwara" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2024.05.12</span>
+                  <span class="archive-item-tag tag-conference">International</span>
+                </div>
+                <div class="archive-item-content">
+                  Dr. Yu Fujiwara gave a presentation on "Development of neutron measurement technology" at the International Collaboration on Advanced Neutron Sources (ICANS).
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FY 2023 -->
+          <div class="archive-group" data-group-year="2023">
+            <div class="archive-year-header">
+              <span class="archive-year-title">FY 2023</span>
+            </div>
+            <div class="archive-list">
+              <div class="archive-item" data-presenter="hayama yoshida" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2023.10.18</span>
+                  <span class="archive-item-tag tag-conference">Oral</span>
+                </div>
+                <div class="archive-item-content">
+                  Mr. Hayama Yoshida gave a presentation on "DNA damage and repair mechanisms" at the Japan Radiation Research Society.
+                </div>
+              </div>
+              <div class="archive-item" data-presenter="taichi miyabe" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2023.08.30</span>
+                  <span class="archive-item-tag tag-conference">Oral</span>
+                </div>
+                <div class="archive-item-content">
+                  Mr. Taichi Miyabe gave a presentation on "Cellular response evaluation by radiation LET" at the Radiation Impact Research Workshop.
+                </div>
+              </div>
+              <div class="archive-item" data-presenter="sachiko yoshihashi" data-tag="invited">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2023.06.12</span>
+                  <span class="archive-item-tag tag-invited">Invited</span>
+                </div>
+                <div class="archive-item-content">
+                  Prof. Sachiko Yoshihashi gave an invited lecture on "Future prospects of neutron source development" at the International Society for Neutron Capture Therapy (ISNCT).
+                </div>
+              </div>
+              <div class="archive-item" data-presenter="yasuyuki ogino" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2023.03.15</span>
+                  <span class="archive-item-tag tag-conference">Oral</span>
+                </div>
+                <div class="archive-item-content">
+                  Dr. Yasuyuki Ogino gave a presentation on "Development of a novel neutron detector" at the Japan Society of Applied Physics.
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </main>
+
+    <!-- Filter JS -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll('.archive-filter-btn');
+        const searchInput = document.getElementById('archive-search');
+        const groups = document.querySelectorAll('.archive-group');
+
+        let activeYear = 'all';
+        let searchQuery = '';
+
+        function filterArchive() {
+          groups.forEach(group => {
+            const groupYear = group.getAttribute('data-group-year');
+            const groupItems = group.querySelectorAll('.archive-item');
+            let visibleInGroupCount = 0;
+
+            groupItems.forEach(item => {
+              const textContent = item.querySelector('.archive-item-content').textContent.toLowerCase();
+              const presenter = item.getAttribute('data-presenter').toLowerCase();
+              const date = item.querySelector('.archive-item-date').textContent;
+              const matchesSearch = textContent.includes(searchQuery) || presenter.includes(searchQuery) || date.includes(searchQuery);
+              const matchesYear = (activeYear === 'all' || activeYear === groupYear);
+
+              if (matchesSearch && matchesYear) {
+                item.style.display = 'flex';
+                visibleInGroupCount++;
+              } else {
+                item.style.display = 'none';
+              }
+            });
+
+            // Toggle year header visibility
+            if (visibleInGroupCount > 0 && (activeYear === 'all' || activeYear === groupYear)) {
+              group.style.display = 'block';
+            } else {
+              group.style.display = 'none';
+            }
+          });
+        }
+
+        buttons.forEach(btn => {
+          btn.addEventListener('click', () => {
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeYear = btn.getAttribute('data-year');
+            filterArchive();
+          });
+        });
+
+        if (searchInput) {
+          searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value.toLowerCase().trim();
+            filterArchive();
+          });
+        }
+      });
+    </script>
 
     <footer class="site-footer">
       <div class="footer-inner">

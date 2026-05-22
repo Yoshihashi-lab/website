@@ -40,11 +40,245 @@
     </header>
 
     <main class="site-main">
-      <div class="container" style="text-align: center; padding: 150px 20px;">
-        <h2 style="font-size: 2rem; color: #8fa8b5; margin-bottom: 20px;">工事中</h2>
-        <p style="color: #555;">このページは現在作成中です。公開までしばらくお待ちください。</p>
+      <div class="container">
+
+        <div class="page-header">
+          <h1>Presentation</h1>
+          <p class="page-header-sub">研究発表実績</p>
+        </div>
+
+        <!-- フィルターセクション -->
+        <div class="archive-filter-section">
+          <div class="archive-filter-group">
+            <span class="archive-filter-label">年度フィルター:</span>
+            <button class="archive-filter-btn active" data-year="all">すべて</button>
+            <button class="archive-filter-btn" data-year="2026">2026年度</button>
+            <button class="archive-filter-btn" data-year="2025">2025年度</button>
+            <button class="archive-filter-btn" data-year="2024">2024年度</button>
+            <button class="archive-filter-btn" data-year="2023">2023年度</button>
+          </div>
+          <div>
+            <input type="text" id="archive-search" class="archive-search-input" placeholder="発表者名やキーワードで検索...">
+          </div>
+        </div>
+
+        <!-- 発表実績リスト -->
+        <div class="archive-container" id="archive-container">
+
+          <!-- 2026年度 -->
+          <div class="archive-group" data-group-year="2026">
+            <div class="archive-year-header">
+              <span class="archive-year-title">2026年度</span>
+            </div>
+            <div class="archive-list">
+              <div class="archive-item" data-presenter="吉橋幸子" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2026.05.22</span>
+                  <span class="archive-item-tag tag-conference">口頭発表</span>
+                </div>
+                <div class="archive-item-content">
+                  吉橋教授がBNCT International Meeting at KUMATRIでNUANSの紹介と伴侶動物BNCTについて発表しました。
+                </div>
+              </div>
+              <div class="archive-item" data-presenter="阿部海大" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2026.05.20</span>
+                  <span class="archive-item-tag tag-conference">口頭発表</span>
+                </div>
+                <div class="archive-item-content">
+                  阿部海大さんが日本原子力学会で細胞内ホウ素分布の評価について発表しました。
+                </div>
+              </div>
+              <div class="archive-item" data-presenter="兼松隼士" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2026.04.15</span>
+                  <span class="archive-item-tag tag-conference">口頭発表</span>
+                </div>
+                <div class="archive-item-content">
+                  兼松隼士さんが応用物理学会で核融合実験装置における中性子場評価について発表しました。
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2025年度 -->
+          <div class="archive-group" data-group-year="2025">
+            <div class="archive-year-header">
+              <span class="archive-year-title">2025年度</span>
+            </div>
+            <div class="archive-list">
+              <div class="archive-item" data-presenter="大平健太" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2025.12.10</span>
+                  <span class="archive-item-tag tag-conference">口頭発表</span>
+                </div>
+                <div class="archive-item-content">
+                  大平健太さんが放射線計測研究会で加速器ビームの測定について発表しました。
+                </div>
+              </div>
+              <div class="archive-item" data-presenter="河合統貴" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2025.09.25</span>
+                  <span class="archive-item-tag tag-conference">口頭発表</span>
+                </div>
+                <div class="archive-item-content">
+                  河合統貴さんが日本放射線影響学会でBNCTにおける細胞死過程の解明について発表しました。
+                </div>
+              </div>
+              <div class="archive-item" data-presenter="新美秋桜" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2025.06.18</span>
+                  <span class="archive-item-tag tag-conference">口頭発表</span>
+                </div>
+                <div class="archive-item-content">
+                  新美秋桜さんが日本保健物理学会でホウ素中性子捕捉療法のための生物影響評価について発表しました。
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2024年度 -->
+          <div class="archive-group" data-group-year="2024">
+            <div class="archive-year-header">
+              <span class="archive-year-title">2024年度</span>
+            </div>
+            <div class="archive-list">
+              <div class="archive-item" data-presenter="海老原慧" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2024.11.22</span>
+                  <span class="archive-item-tag tag-conference">口頭発表</span>
+                </div>
+                <div class="archive-item-content">
+                  海老原慧さんが放射線化学討論会で細胞内ホウ素分布の評価について発表しました。
+                </div>
+              </div>
+              <div class="archive-item" data-presenter="中山尚紀" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2024.09.05</span>
+                  <span class="archive-item-tag tag-conference">口頭発表</span>
+                </div>
+                <div class="archive-item-content">
+                  中山尚紀さんが中性子科学会でBNCTのための中性子場設計について発表しました。
+                </div>
+              </div>
+              <div class="archive-item" data-presenter="藤原悠" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2024.05.12</span>
+                  <span class="archive-item-tag tag-conference">国際学会</span>
+                </div>
+                <div class="archive-item-content">
+                  藤原悠さんが国際中性子源学会 (ICANS) で中性子計測技術の開発について発表しました。
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2023年度 -->
+          <div class="archive-group" data-group-year="2023">
+            <div class="archive-year-header">
+              <span class="archive-year-title">2023年度</span>
+            </div>
+            <div class="archive-list">
+              <div class="archive-item" data-presenter="吉田隼麻" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2023.10.18</span>
+                  <span class="archive-item-tag tag-conference">口頭発表</span>
+                </div>
+                <div class="archive-item-content">
+                  吉田隼麻さんが日本放射線影響学会でDNA損傷と修復メカニズムについて発表しました。
+                </div>
+              </div>
+              <div class="archive-item" data-presenter="宮部泰知" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2023.08.30</span>
+                  <span class="archive-item-tag tag-conference">口頭発表</span>
+                </div>
+                <div class="archive-item-content">
+                  宮部泰知さんが放射線影響研究会で放射線のLETによる細胞応答評価について発表しました。
+                </div>
+              </div>
+              <div class="archive-item" data-presenter="吉橋幸子" data-tag="invited">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2023.06.12</span>
+                  <span class="archive-item-tag tag-invited">招待講演</span>
+                </div>
+                <div class="archive-item-content">
+                  吉橋幸子教授が国際中性子捕捉療法学会 (ISNCT) で中性子源開発の展望について招待講演を行いました。
+                </div>
+              </div>
+              <div class="archive-item" data-presenter="荻野靖之" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2023.03.15</span>
+                  <span class="archive-item-tag tag-conference">口頭発表</span>
+                </div>
+                <div class="archive-item-content">
+                  荻野靖之さんが応用物理学会で新規中性子検出器の開発について発表しました。
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </main>
+
+    <!-- 絞り込み用のJavaScript -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll('.archive-filter-btn');
+        const searchInput = document.getElementById('archive-search');
+        const groups = document.querySelectorAll('.archive-group');
+
+        let activeYear = 'all';
+        let searchQuery = '';
+
+        function filterArchive() {
+          groups.forEach(group => {
+            const groupYear = group.getAttribute('data-group-year');
+            const groupItems = group.querySelectorAll('.archive-item');
+            let visibleInGroupCount = 0;
+
+            groupItems.forEach(item => {
+              const textContent = item.querySelector('.archive-item-content').textContent.toLowerCase();
+              const presenter = item.getAttribute('data-presenter').toLowerCase();
+              const date = item.querySelector('.archive-item-date').textContent;
+              const matchesSearch = textContent.includes(searchQuery) || presenter.includes(searchQuery) || date.includes(searchQuery);
+              const matchesYear = (activeYear === 'all' || activeYear === groupYear);
+
+              if (matchesSearch && matchesYear) {
+                item.style.display = 'flex';
+                visibleInGroupCount++;
+              } else {
+                item.style.display = 'none';
+              }
+            });
+
+            // 年度のグループ全体を表示するかどうか
+            if (visibleInGroupCount > 0 && (activeYear === 'all' || activeYear === groupYear)) {
+              group.style.display = 'block';
+            } else {
+              group.style.display = 'none';
+            }
+          });
+        }
+
+        buttons.forEach(btn => {
+          btn.addEventListener('click', () => {
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeYear = btn.getAttribute('data-year');
+            filterArchive();
+          });
+        });
+
+        if (searchInput) {
+          searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value.toLowerCase().trim();
+            filterArchive();
+          });
+        }
+      });
+    </script>
 
     <footer class="site-footer">
       <div class="footer-inner">
