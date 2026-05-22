@@ -72,7 +72,6 @@
                 <summary class="archive-item-summary">
                   <div class="archive-item-meta">
                     <span class="archive-item-date">2026.05.22</span>
-                    <span class="archive-item-tag tag-conference">Oral</span>
                   </div>
                   <div class="archive-item-content">
                     Prof. Sachiko Yoshihashi gave a presentation on "Introduction of NUANS and BNCT for companion animals" at the BNCT International Meeting at KUMATRI.
@@ -91,10 +90,6 @@
                     <tr>
                       <th>Topic / Title</th>
                       <td>Introduction of NUANS and BNCT for companion animals</td>
-                    </tr>
-                    <tr>
-                      <th>Format</th>
-                      <td>Oral Presentation</td>
                     </tr>
                     <tr>
                       <th>Date</th>
@@ -134,7 +129,7 @@
               const matchesYear = (activeYear === 'all' || activeYear === groupYear);
 
               if (matchesSearch && matchesYear) {
-                item.style.display = 'flex';
+                item.style.display = 'block';
                 visibleInGroupCount++;
               } else {
                 item.style.display = 'none';

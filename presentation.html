@@ -72,7 +72,6 @@
                 <summary class="archive-item-summary">
                   <div class="archive-item-meta">
                     <span class="archive-item-date">2026.05.22</span>
-                    <span class="archive-item-tag tag-conference">口頭発表</span>
                   </div>
                   <div class="archive-item-content">
                     吉橋教授がBNCT International Meeting at KUMATRIでNUANSの紹介と伴侶動物BNCTについて発表しました。
@@ -91,10 +90,6 @@
                     <tr>
                       <th>発表タイトル</th>
                       <td>NUANSの紹介と伴侶動物BNCT</td>
-                    </tr>
-                    <tr>
-                      <th>発表形式</th>
-                      <td>口頭発表</td>
                     </tr>
                     <tr>
                       <th>発表日</th>
@@ -134,7 +129,7 @@
               const matchesYear = (activeYear === 'all' || activeYear === groupYear);
 
               if (matchesSearch && matchesYear) {
-                item.style.display = 'flex';
+                item.style.display = 'block';
                 visibleInGroupCount++;
               } else {
                 item.style.display = 'none';

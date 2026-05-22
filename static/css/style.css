@@ -513,14 +513,19 @@ details.news-item[open] {
 }
 
 /* <summary> 内レイアウト（expandable 版） */
+details.news-item {
+  display: block;
+}
+
 .news-summary {
   display: flex;
   gap: 20px;
-  padding: 20px 32px;
+  padding: 20px 48px 20px 32px;
   align-items: flex-start;
   cursor: pointer;
   list-style: none;
   transition: background var(--transition);
+  position: relative;
 }
 
 .news-summary::-webkit-details-marker {
@@ -529,6 +534,23 @@ details.news-item[open] {
 
 .news-summary::marker {
   display: none;
+}
+
+/* Custom expand/collapse indicator for news */
+details.news-item summary::after {
+  content: "+";
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--color-text-light);
+  transition: transform var(--transition);
+}
+
+details.news-item[open] summary::after {
+  content: "−";
 }
 
 /* flat 版 (.news-item が <div>) の内部レイアウト */
@@ -1792,6 +1814,7 @@ details.news-item[open] {
 
 /* Collapsible styles for presentation archive-item */
 details.archive-item {
+  display: block; /* Override default .archive-item flex layout */
   cursor: pointer;
   outline: none;
 }
