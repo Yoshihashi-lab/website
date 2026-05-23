@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    Uritani Laboratory - Main Stylesheet (task4 design polish)
    Django移行時: {% load static %} → {% static 'css/style.css' %}
    ============================================================ */
@@ -859,7 +859,7 @@ details.news-item[open] summary::after {
 /* ============================================================
    PRESENTATION PAGE
    ============================================================ */
-.presentation-year {
+.publication-year {
   margin-bottom: 44px;
 }
 
@@ -880,14 +880,14 @@ details.news-item[open] summary::after {
   background: linear-gradient(90deg, var(--color-border) 0%, transparent 100%);
 }
 
-.presentation-list {
+.publication-list {
   background-color: var(--color-white);
   border-radius: var(--radius-md);
   overflow: hidden;
   box-shadow: 0 2px 8px var(--color-shadow);
 }
 
-.presentation-entry {
+.publication-entry {
   padding: 18px 28px;
   border-bottom: 1px solid var(--color-border);
   font-size: 0.93rem;
@@ -895,15 +895,15 @@ details.news-item[open] summary::after {
   transition: background var(--transition);
 }
 
-.presentation-entry:hover {
+.publication-entry:hover {
   background-color: var(--color-surface-alt);
 }
 
-.presentation-entry:last-child {
+.publication-entry:last-child {
   border-bottom: none;
 }
 
-.presentation-entry .entry-type {
+.publication-entry .entry-type {
   display: inline-block;
   font-size: 0.70rem;
   padding: 2px 9px;
@@ -1639,7 +1639,7 @@ details.news-item[open] summary::after {
 }
 
 /* ============================================================
-   SCREENSHOT-LIKE ARCHIVE LAYOUT (For Presentation / News)
+   SCREENSHOT-LIKE ARCHIVE LAYOUT (For Publication / News)
    ============================================================ */
 .archive-container {
   max-width: var(--max-width);
@@ -1735,7 +1735,7 @@ details.news-item[open] summary::after {
   color: var(--color-text);
 }
 
-/* Custom interactive search/filter bar for Presentation Page */
+/* Custom interactive search/filter bar for Publication Page */
 .archive-filter-section {
   display: flex;
   justify-content: space-between;
