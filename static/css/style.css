@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    Uritani Laboratory - Main Stylesheet (task4 design polish)
    Django移行時: {% load static %} → {% static 'css/style.css' %}
    ============================================================ */
@@ -134,6 +134,40 @@ ul {
   color: var(--color-primary);
   letter-spacing: 0.03em;
   line-height: 1.2;
+}
+
+.site-title a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.site-title a:hover,
+.site-title a:focus {
+  opacity: 0.7;
+  text-decoration: none;
+}
+
+/* tour.html を埋め込む iframe — スマホでは縦長レイアウトに対応 */
+.tour-iframe {
+  width: 100%;
+  aspect-ratio: 1120 / 780;
+  border: none;
+  overflow: hidden;
+  display: block;
+}
+
+@media (max-width: 640px) {
+  .tour-iframe {
+    /* モバイル時は tour.html のステージが縦長になる（マップ + 情報バー） */
+    aspect-ratio: 1120 / 1050;
+  }
+}
+
+@media (max-width: 400px) {
+  .tour-iframe {
+    aspect-ratio: 1120 / 1100;
+  }
 }
 
 .site-subtitle {
@@ -472,21 +506,36 @@ ul {
   border-bottom: none;
 }
 
-/* details の open 状態 / div の hover */
+/* details の open 状態 / div や a の hover */
 .news-item:hover,
 details.news-item[open] {
   background-color: var(--color-surface-alt);
 }
 
+a.news-item {
+  color: inherit;
+  text-decoration: none;
+}
+
+a.news-item:hover .news-text {
+  color: var(--color-primary-mid);
+  text-decoration: underline;
+}
+
 /* <summary> 内レイアウト（expandable 版） */
+details.news-item {
+  display: block;
+}
+
 .news-summary {
   display: flex;
   gap: 20px;
-  padding: 20px 32px;
+  padding: 20px 48px 20px 32px;
   align-items: flex-start;
   cursor: pointer;
   list-style: none;
   transition: background var(--transition);
+  position: relative;
 }
 
 .news-summary::-webkit-details-marker {
@@ -495,6 +544,23 @@ details.news-item[open] {
 
 .news-summary::marker {
   display: none;
+}
+
+/* Custom expand/collapse indicator for news */
+details.news-item summary::after {
+  content: "+";
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--color-text-light);
+  transition: transform var(--transition);
+}
+
+details.news-item[open] summary::after {
+  content: "−";
 }
 
 /* flat 版 (.news-item が <div>) の内部レイアウト */
@@ -793,7 +859,7 @@ details.news-item[open] {
 /* ============================================================
    PRESENTATION PAGE
    ============================================================ */
-.presentation-year {
+.publication-year {
   margin-bottom: 44px;
 }
 
@@ -814,14 +880,14 @@ details.news-item[open] {
   background: linear-gradient(90deg, var(--color-border) 0%, transparent 100%);
 }
 
-.presentation-list {
+.publication-list {
   background-color: var(--color-white);
   border-radius: var(--radius-md);
   overflow: hidden;
   box-shadow: 0 2px 8px var(--color-shadow);
 }
 
-.presentation-entry {
+.publication-entry {
   padding: 18px 28px;
   border-bottom: 1px solid var(--color-border);
   font-size: 0.93rem;
@@ -829,15 +895,15 @@ details.news-item[open] {
   transition: background var(--transition);
 }
 
-.presentation-entry:hover {
+.publication-entry:hover {
   background-color: var(--color-surface-alt);
 }
 
-.presentation-entry:last-child {
+.publication-entry:last-child {
   border-bottom: none;
 }
 
-.presentation-entry .entry-type {
+.publication-entry .entry-type {
   display: inline-block;
   font-size: 0.70rem;
   padding: 2px 9px;
@@ -1571,3 +1637,286 @@ details.news-item[open] {
     height: 240px !important;
   }
 }
+
+/* ============================================================
+   SCREENSHOT-LIKE ARCHIVE LAYOUT (For Publication / News)
+   ============================================================ */
+.archive-container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.archive-group {
+  margin-bottom: 50px;
+}
+
+.archive-year-header {
+  border-top: 3px solid #1a2e3a; /* Thick top border */
+  padding-top: 15px;
+  margin-bottom: 15px;
+}
+
+.archive-year-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0c7f8a; /* Teal color matching the user's screenshot */
+  text-decoration: none;
+  display: inline-block;
+  font-family: var(--font-main);
+  letter-spacing: 0.03em;
+  transition: color var(--transition);
+}
+
+.archive-year-title:hover {
+  color: var(--color-primary-mid);
+}
+
+.archive-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.archive-item {
+  padding: 18px 8px;
+  border-bottom: 1px dotted #c4d5de; /* Dotted separating line */
+  font-size: 1rem;
+  color: var(--color-text);
+  line-height: 1.85;
+  transition: background-color var(--transition), padding-left var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.archive-item:hover {
+  background-color: rgba(143, 168, 181, 0.05);
+  padding-left: 12px;
+}
+
+.archive-item-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.archive-item-date {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  font-weight: 500;
+}
+
+.archive-item-tag {
+  display: inline-block;
+  font-size: 0.70rem;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.archive-item-tag.tag-conference {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.archive-item-tag.tag-journal {
+  background-color: #d8eef4;
+  color: #0c5460;
+}
+
+.archive-item-tag.tag-invited {
+  background-color: #ffe5d0;
+  color: #7b3e00;
+}
+
+.archive-item-content {
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+/* Custom interactive search/filter bar for Publication Page */
+.archive-filter-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 40px;
+  background-color: var(--color-white);
+  padding: 20px 28px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px var(--color-shadow);
+  flex-wrap: wrap;
+}
+
+.archive-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.archive-filter-label {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-text-mid);
+}
+
+.archive-filter-btn {
+  background-color: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-mid);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.archive-filter-btn:hover {
+  background-color: var(--color-accent-light);
+  color: var(--color-primary);
+}
+
+.archive-filter-btn.active {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-white);
+  box-shadow: 0 2px 6px rgba(30, 77, 107, 0.2);
+}
+
+.archive-search-input {
+  padding: 8px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  font-size: 0.88rem;
+  color: var(--color-text);
+  outline: none;
+  min-width: 260px;
+  font-family: var(--font-main);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.archive-search-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(30, 77, 107, 0.15);
+}
+
+/* Mobile responsive fixes for archive lists */
+@media (max-width: 640px) {
+  .archive-filter-section {
+    padding: 16px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .archive-search-input {
+    min-width: 100%;
+  }
+  .archive-year-title {
+    font-size: 1.3rem;
+  }
+  .archive-item {
+    padding: 14px 4px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Collapsible styles for presentation archive-item */
+details.archive-item {
+  display: block; /* Override default .archive-item flex layout */
+  cursor: pointer;
+  outline: none;
+}
+
+details.archive-item summary {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  list-style: none; /* Hide default arrow */
+  outline: none;
+  position: relative;
+  padding-right: 36px;
+}
+
+details.archive-item summary::-webkit-details-marker {
+  display: none; /* Hide default arrow in Safari */
+}
+
+details.archive-item summary::marker {
+  display: none; /* Hide default arrow in Firefox */
+}
+
+/* Custom expand/collapse indicator */
+details.archive-item summary::after {
+  content: "+";
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--color-text-light);
+  transition: transform var(--transition);
+}
+
+details.archive-item[open] summary::after {
+  content: "−";
+}
+
+.archive-item-details {
+  padding: 16px 8px 8px;
+  border-top: 1px dashed var(--color-border);
+  margin-top: 12px;
+  cursor: default;
+}
+
+.archive-details-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.archive-details-table th,
+.archive-details-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.archive-details-table th {
+  font-weight: 700;
+  color: var(--color-text-mid);
+  width: 160px;
+  background-color: var(--color-surface-alt);
+}
+
+.archive-details-table td {
+  color: var(--color-text);
+}
+
+@media (max-width: 640px) {
+  details.archive-item summary {
+    padding-right: 28px;
+  }
+  .archive-details-table th,
+  .archive-details-table td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .archive-details-table th {
+    background-color: transparent;
+    padding-bottom: 2px;
+    padding-top: 8px;
+    border-bottom: none;
+  }
+  .archive-details-table td {
+    padding-top: 2px;
+    padding-bottom: 8px;
+  }
+}
+
+
+

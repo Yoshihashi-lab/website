@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 
 <head>
@@ -45,6 +45,12 @@
             overflow: hidden;
             border: 1px solid rgba(40, 180, 150, 0.3);
             box-shadow: 0 0 60px rgba(30, 160, 130, 0.15), 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Map body area (overlays the stage on desktop, sits on top on mobile) */
+        #map-area {
+            position: absolute;
+            inset: 0;
         }
 
         /* ローディング画面 */
@@ -310,12 +316,200 @@
             pointer-events: none;
             z-index: 25;
         }
+
+        /* ============================================================
+           MOBILE — make the map readable on small screens (≤ 640px)
+           Stage becomes auto-height: map (1120/630) + infobar stacked
+           so the bottom info text never overlaps city labels.
+           ============================================================ */
+        @media (max-width: 640px) {
+            body {
+                padding: 10px 6px 14px;
+                gap: 8px;
+                justify-content: flex-start;
+            }
+
+            #title {
+                font-size: 14px;
+                letter-spacing: 0.18em;
+            }
+
+            #stage {
+                width: 100%;
+                aspect-ratio: auto;
+                max-height: none;
+                display: flex;
+                flex-direction: column;
+                border-radius: 12px;
+                border-width: 1px;
+                box-shadow: 0 0 30px rgba(30, 160, 130, 0.15),
+                    0 10px 30px rgba(0, 0, 0, 0.6);
+            }
+
+            /* Map body sits on top, fixed aspect-ratio */
+            #map-area {
+                position: relative;
+                inset: auto;
+                width: 100%;
+                aspect-ratio: 1120 / 630;
+                flex: 0 0 auto;
+            }
+
+            #loading {
+                font-size: 12px;
+            }
+
+            .spinner {
+                width: 32px;
+                height: 32px;
+                border-width: 2.5px;
+            }
+
+            .city-dot {
+                width: 9px;
+                height: 9px;
+                border-width: 1.5px;
+            }
+
+            .city.home .city-dot {
+                width: 12px;
+                height: 12px;
+            }
+
+            .city-label {
+                font-size: 10px;
+                line-height: 1.2;
+                letter-spacing: -0.02em;
+                text-shadow: 0 1px 3px rgba(0, 0, 0, 1),
+                    0 0 6px rgba(0, 0, 0, 0.9);
+            }
+
+            .city.active .city-label {
+                font-size: 12px;
+            }
+
+            #avatar {
+                width: 22px;
+                height: 28px;
+            }
+
+            #bubble {
+                font-size: 10px;
+                padding: 4px 9px;
+                border-radius: 6px;
+            }
+
+            #bubble::after {
+                bottom: -5px;
+                border-width: 5px;
+            }
+
+            /* Info bar — stacked below the map (no longer overlapping) */
+            #infobar {
+                position: relative;
+                bottom: auto;
+                left: auto;
+                right: auto;
+                height: auto;
+                min-height: 48px;
+                padding: 10px 14px;
+                gap: 10px;
+                background: rgba(5, 20, 28, 0.96);
+                flex: 0 0 auto;
+            }
+
+            #city-name {
+                font-size: 12px;
+                letter-spacing: 0.02em;
+                line-height: 1.3;
+                white-space: normal;
+                word-break: break-word;
+            }
+
+            #exp-text {
+                font-size: 10px;
+                margin-top: 2px;
+                line-height: 1.3;
+            }
+
+            #route-dots {
+                gap: 5px;
+                flex-shrink: 0;
+            }
+
+            .rd {
+                width: 6px;
+                height: 6px;
+                border-width: 1px;
+            }
+
+            .rd.active {
+                transform: scale(1.4);
+            }
+        }
+
+        /* ============================================================
+           SMALL PHONES (≤ 400px) — extra compact
+           ============================================================ */
+        @media (max-width: 400px) {
+            body {
+                padding: 8px 4px 10px;
+            }
+
+            #title {
+                font-size: 12px;
+                letter-spacing: 0.14em;
+            }
+
+            .city-label {
+                font-size: 9px;
+            }
+
+            .city.active .city-label {
+                font-size: 11px;
+            }
+
+            #avatar {
+                width: 18px;
+                height: 22px;
+            }
+
+            #city-name {
+                font-size: 11px;
+            }
+
+            #exp-text {
+                font-size: 9px;
+            }
+
+            #infobar {
+                padding: 6px 10px;
+                gap: 8px;
+                min-height: 42px;
+            }
+        }
+
+        /* Landscape mobile — give the map maximum width */
+        @media (max-width: 900px) and (orientation: landscape) {
+            body {
+                padding: 6px 8px;
+                gap: 6px;
+            }
+
+            #title {
+                font-size: 12px;
+            }
+
+            #stage {
+                max-height: calc(100vh - 50px);
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <div id="title">🔬 JAPAN RESEARCH NETWORK</div>
+    <div id="title">RESEARCH NETWORK</div>
 
     <div id="stage">
 
@@ -324,6 +518,9 @@
             <div class="spinner"></div>
             <div>Topological Map Loading...</div>
         </div>
+
+        <!-- ── Map area (map + markers) ── -->
+        <div id="map-area">
 
         <!-- ── MAP SVG ── -->
         <svg id="map-svg" viewBox="0 0 1120 630" xmlns="http://www.w3.org/2000/svg">
@@ -402,6 +599,8 @@
         <!-- Particles -->
         <div id="particles-container"></div>
 
+        </div><!-- /#map-area -->
+
         <!-- Info bar -->
         <div id="infobar">
             <div>
@@ -424,7 +623,7 @@
             {
                 id: 'tokyo', lon: 140.4851, lat: 36.4566, label: 'Naka (Ibaraki)', emoji: '⚡',
                 color: '#4a9eff',
-                exp: { type: 'JT-60SA Joint Research', msgs: ['Fusion test reactor in Japan', 'Simulation and Experiments...', '✅ Neutronic analysis for fusion energy!', 'Interesting!'], particles: ['#4a9eff', '#88ccff', '#b3e0ff', '#ffffff'] }
+                exp: { type: 'Naka Fusion Institute', msgs: ['JT-60SA Joint Research', 'Simulation and Experiments...', '✅ Neutronic analysis for fusion energy!', 'Interesting!'], particles: ['#4a9eff', '#88ccff', '#b3e0ff', '#ffffff'] }
             },
             {
                 id: 'sendai', lon: 140.8719, lat: 38.2682, label: 'Sendai', emoji: '🌊',
@@ -434,25 +633,23 @@
             {
                 id: 'aomori', lon: 140.7400, lat: 40.8244, label: 'Aomori', emoji: '❄️',
                 color: '#b3d9ff',
-                exp: { type: 'IFMIF', msgs: ['The International Fusion Materials Irradiation Facility', 'Experiments...', '✅ Developing Beam Profile monitoring system!', 'Cool!'], particles: ['#b3d9ff', '#ffffff', '#ddf0ff', '#88bbff'] }
+                exp: { type: 'Rokkasho Institute for Fusion Energy / Aomori Prefecture Quantum Science Center', msgs: ['IFMIF-EVEDA Project', 'Experiments...', '✅ Developing Beam Profile monitoring system!', 'Cool!'], particles: ['#b3d9ff', '#ffffff', '#ddf0ff', '#88bbff'] }
             },
             {
                 // Fukui: Kyotoとの被りを防ぐため、意図的に少し北(latを増加)へデフォルメ
                 id: 'fukui', lon: 136.22, lat: 36.60, label: 'Fukui', emoji: '🦕',
                 color: '#88ff66',
-                exp: { type: 'Wakasa Wan Energy Research Center', msgs: ['α/proton beam facility', 'Experiments...', '✅ Cell damage for LET differences!', 'Wow!'], particles: ['#88ff66', '#aaff88', '#ccffaa', '#bbff99'] }
-            },
-            {
-                // Kyoto: 被りを防ぐため、意図的に少し北東(lon, latを増加)へデフォルメ
-                id: 'kyoto', lon: 135.95, lat: 35.35, label: 'Kyoto', emoji: '🌸',
-                color: '#ff88cc',
-                exp: { type: 'KUR', msgs: ['Test nuclear reactor for BNCT', 'Experiments...', '✅ Cell damage analyzing!', 'Great!'], particles: ['#ff88cc', '#ffaadd', '#ffccee', '#ffbbdd'] }
+                exp: {
+                    type: 'Wakasa Wan Energy Research Center/Fukui University',
+                    msgs: ['α/proton beam facility', 'Experiments...', '✅ Cell damage for LET differences!', 'Wow!'],
+                    particles: ['#88ff66', '#aaff88', '#ccffaa', '#bbff99']
+                }
             },
             {
                 // Osaka: 被りを防ぐため、意図的に少し南西(lon, latを減少)へデフォルメ
                 id: 'osaka', lon: 135.20, lat: 34.40, label: 'Osaka', emoji: '🍱',
                 color: '#ff7755',
-                exp: { type: 'UTR－KINKI', msgs: ['Thermal neutron reactor facility', 'Experiments...', '✅ Trackstructure Analysis!', 'Successful!'], particles: ['#ff7755', '#ffaa66', '#ffcc88', '#ffbb77'] }
+                exp: { type: 'Kindai University', msgs: ['Thermal neutron reactor facility (UTR－KINKI)', 'Experiments...', '✅ Trackstructure Analysis!', 'Successful!'], particles: ['#ff7755', '#ffaa66', '#ffcc88', '#ffbb77'] }
             },
             {
                 id: 'fukuoka', lon: 130.4017, lat: 33.5902, label: 'Fukuoka', emoji: '🎓',
@@ -462,12 +659,13 @@
             {
                 id: 'korea', lon: 129.0300, lat: 35.1000, label: 'Korea, KSTAR', emoji: '🌏',
                 color: '#ffcc44',
-                exp: { type: 'Korea-Japan Joint Research', msgs: ['Fusion research in Korea', 'Simulation and Experiments...', '✅ Exproling horizons!', 'Incredible!'], particles: ['#ffcc44', '#ffee66', '#ffee99', '#ffdd55'] }
+                exp: { type: 'Korea Institute of Fusion Energy', msgs: ['KSTAR Joint Research', 'Simulation and Experiments...', '✅ Exproling horizons!', 'Incredible!'], particles: ['#ffcc44', '#ffee66', '#ffee99', '#ffdd55'] }
             },
         ];
 
-        // ルート設定
-        const ROUTE = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+        // Route setup (8 cities at CITIES indices 0–7;
+        // advance() wraps step with modulo ROUTE.length)
+        const ROUTE = [0, 1, 2, 3, 4, 5, 6, 7];
         let step = 0;
 
         // ── 2. 地図データのロードと D3 描画 (ズームアップ・不要エリアの除外) ──

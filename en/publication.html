@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Presentation | Yoshihashi Laboratory</title>
+  <title>Publication | Yoshihashi Laboratory</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="../static/css/style.css">
 </head>
 
 <body>
@@ -16,22 +16,22 @@
 
     <header class="site-header">
       <div class="header-inner">
-        <h1 class="site-title"><a href="index.html">吉橋研究室のウェブサイト</a></h1>
+        <h1 class="site-title"><a href="index.html">Yoshihashi Laboratory</a></h1>
         <div class="lang-switch">
-          <a href="presentation.html" class="lang-btn active">JP</a>
+          <a href="../publication.html" class="lang-btn">JP</a>
           <span>|</span>
-          <a href="en/presentation.html" class="lang-btn">EN</a>
+          <a href="publication.html" class="lang-btn active">EN</a>
         </div>
-        <button class="nav-toggle" aria-label="メニューを開く" aria-expanded="false">
+        <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
-        <nav class="site-nav" aria-label="メインナビゲーション">
+        <nav class="site-nav" aria-label="Main navigation">
           <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="news.html">News</a></li>
             <li><a href="study.html">Study</a></li>
             <li><a href="member.html">Member</a></li>
-            <li><a href="presentation.html" class="active">Presentation</a></li>
+            <li><a href="publication.html" class="active">Publication</a></li>
             <li><a href="access.html">Access &amp; Contact</a></li>
             <li><a href="blog.html">Blog</a></li>
           </ul>
@@ -43,61 +43,41 @@
       <div class="container">
 
         <div class="page-header">
-          <h1>Presentation</h1>
-          <p class="page-header-sub">研究発表実績</p>
+          <h1>Publication</h1>
+          <p class="page-header-sub">Publication & Publication Records</p>
         </div>
 
-        <!-- フィルターセクション -->
+        <!-- Filter Section -->
         <div class="archive-filter-section">
           <div class="archive-filter-group">
-            <span class="archive-filter-label">年度フィルター:</span>
-            <button class="archive-filter-btn active" data-year="all">すべて</button>
-            <button class="archive-filter-btn" data-year="2026">2026年度</button>
+            <span class="archive-filter-label">Year Filter:</span>
+            <button class="archive-filter-btn active" data-year="all">All</button>
+            <button class="archive-filter-btn" data-year="2026">FY 2026</button>
           </div>
           <div>
-            <input type="text" id="archive-search" class="archive-search-input" placeholder="発表者名やキーワードで検索...">
+            <input type="text" id="archive-search" class="archive-search-input"
+              placeholder="Search by presenter or keyword...">
           </div>
         </div>
 
-        <!-- 発表実績リスト -->
+        <!-- Publications list -->
         <div class="archive-container" id="archive-container">
 
-          <!-- 2026年度 -->
+          <!-- FY 2026 -->
           <div class="archive-group" data-group-year="2026">
             <div class="archive-year-header">
-              <span class="archive-year-title">2026年度</span>
+              <span class="archive-year-title">FY 2026</span>
             </div>
             <div class="archive-list">
-              <details id="pres-20260522" class="archive-item" data-presenter="吉橋幸子" data-tag="conference">
-                <summary class="archive-item-summary">
-                  <div class="archive-item-meta">
-                    <span class="archive-item-date">2026.05.22</span>
-                  </div>
-                  <div class="archive-item-content">
-                    吉橋教授がBNCT International Meeting at KUMATRIでNUANSの紹介と伴侶動物BNCTについて発表しました。
-                  </div>
-                </summary>
-                <div class="archive-item-details">
-                  <table class="archive-details-table">
-                    <tr>
-                      <th>発表者</th>
-                      <td>吉橋 幸子 教授</td>
-                    </tr>
-                    <tr>
-                      <th>学会・会議名</th>
-                      <td>BNCT International Meeting at KUMATORI</td>
-                    </tr>
-                    <tr>
-                      <th>発表タイトル</th>
-                      <td>NUANSの紹介と伴侶動物BNCT</td>
-                    </tr>
-                    <tr>
-                      <th>発表日</th>
-                      <td>2026年5月22日</td>
-                    </tr>
-                  </table>
+              <div id="pub-20260522" class="archive-item" data-presenter="sachiko yoshihashi" data-tag="conference">
+                <div class="archive-item-meta">
+                  <span class="archive-item-date">2026.05.22</span>
                 </div>
-              </details>
+                <div class="archive-item-content">
+                  Sachiko Yoshihashi, "Introduction of NUANS and BNCT for companion animals", BNCT International Meeting
+                  at KUMATORI, Kyoto, Japan (2026)
+                </div>
+              </div>
             </div>
           </div>
 
@@ -105,7 +85,7 @@
       </div>
     </main>
 
-    <!-- 絞り込み用のJavaScript -->
+    <!-- Filter JS -->
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const buttons = document.querySelectorAll('.archive-filter-btn');
@@ -136,7 +116,7 @@
               }
             });
 
-            // 年度のグループ全体を表示するかどうか
+            // Toggle year header visibility
             if (visibleInGroupCount > 0 && (activeYear === 'all' || activeYear === groupYear)) {
               group.style.display = 'block';
             } else {
@@ -189,7 +169,7 @@
     </footer>
 
   </div>
-  <script src="static/js/main.js"></script>
+  <script src="../static/js/main.js"></script>
 </body>
 
 </html>

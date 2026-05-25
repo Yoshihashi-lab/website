@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 
 <head>
@@ -46,6 +46,12 @@
             overflow: hidden;
             border: 1px solid rgba(40, 180, 150, 0.3);
             box-shadow: 0 0 60px rgba(30, 160, 130, 0.15), 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        /* マップ本体エリア (デスクトップではstageを覆う、モバイルでは上部に配置) */
+        #map-area {
+            position: absolute;
+            inset: 0;
         }
 
         /* ローディング画面 */
@@ -315,7 +321,8 @@
 
         /* ============================================================
            MOBILE — make the map readable on small screens (≤ 640px)
-           Maximize stage size, shrink chrome (title/info bar/labels).
+           Stage becomes auto-height: map (1120/630) + infobar stacked
+           so the bottom info text never overlaps city labels.
            ============================================================ */
         @media (max-width: 640px) {
             body {
@@ -331,16 +338,25 @@
             }
 
             #stage {
-                /* Stage grows to nearly full viewport height while
-                   still constrained by viewport width. The browser
-                   picks the smaller of width/aspect-ratio vs max-height. */
+                /* 縦方向は中身に合わせる（マップ + infobar 分） */
                 width: 100%;
-                aspect-ratio: 1120 / 630;
-                max-height: calc(100vh - 80px);
+                aspect-ratio: auto;
+                max-height: none;
+                display: flex;
+                flex-direction: column;
                 border-radius: 12px;
                 border-width: 1px;
                 box-shadow: 0 0 30px rgba(30, 160, 130, 0.15),
                     0 10px 30px rgba(0, 0, 0, 0.6);
+            }
+
+            /* マップ本体は flow に戻し、上部に固定アスペクトで配置 */
+            #map-area {
+                position: relative;
+                inset: auto;
+                width: 100%;
+                aspect-ratio: 1120 / 630;
+                flex: 0 0 auto;
             }
 
             /* Loading screen text */
@@ -396,12 +412,19 @@
                 border-width: 5px;
             }
 
-            /* Info bar — slimmer, smaller text, allow wrapping */
+            /* Info bar — マップの下にスタック（被り解消） */
             #infobar {
+                position: relative;
+                bottom: auto;
+                left: auto;
+                right: auto;
                 height: auto;
                 min-height: 48px;
-                padding: 8px 14px;
+                padding: 10px 14px;
                 gap: 10px;
+                /* オーバーレイではなくなったので、背景はソリッドに */
+                background: rgba(5, 20, 28, 0.96);
+                flex: 0 0 auto;
             }
 
             #city-name {
@@ -506,6 +529,9 @@
             <div>Topological Map Loading...</div>
         </div>
 
+        <!-- ── マップエリア（地図 + マーカー類） ── -->
+        <div id="map-area">
+
         <!-- ── MAP SVG ── -->
         <svg id="map-svg" viewBox="0 0 1120 630" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -582,6 +608,8 @@
         <!-- Particles -->
         <div id="particles-container"></div>
 
+        </div><!-- /#map-area -->
+
         <!-- Info bar -->
         <div id="infobar">
             <div>
@@ -604,35 +632,29 @@
             {
                 id: 'tokyo', lon: 140.4851, lat: 36.4566, label: '那珂（茨城）', emoji: '⚡',
                 color: '#4a9eff',
-                exp: { type: 'JT-60SA共同研究', msgs: ['JT-60SA', '計算中...', '測定中...'], particles: ['#4a9eff', '#88ccff', '#b3e0ff', '#ffffff'] }
+                exp: { type: 'QST那珂フュージョン科学技術研究所', msgs: ['JT-60SA 共同研究', '実験中...', '測定中...'], particles: ['#4a9eff', '#88ccff', '#b3e0ff', '#ffffff'] }
             },
             {
                 id: 'sendai', lon: 140.8719, lat: 38.2682, label: '仙台', emoji: '🌊',
                 color: '#00e5cc',
-                exp: { type: '東北大学先端量子ビーム科学研究センター', msgs: ['RI照射施設', '実験中...', '解析中...'], particles: ['#00e5cc', '#40ffee', '#88ffee', '#ccfffb'] }
+                exp: { type: '東北大学先端量子ビーム科学研究センター', msgs: ['RI照射施設 共同研究', '実験中...', '解析中...'], particles: ['#00e5cc', '#40ffee', '#88ffee', '#ccfffb'] }
             },
             {
                 id: 'aomori', lon: 140.7400, lat: 40.8244, label: '青森', emoji: '❄️',
                 color: '#b3d9ff',
-                exp: { type: 'IFMIF', msgs: ['国際核融合材料照射施設', '熱解析中...', '実験中...'], particles: ['#00e5cc', '#40ffee', '#88ffee', '#ccfffb'] }
+                exp: { type: 'QST六ヶ所フュージョンエネルギー研究所/QSC青森県量子科学研究センター', msgs: ['IFMIF-EVEDA 共同研究', '実験中...', '熱解析中...'], particles: ['#00e5cc', '#40ffee', '#88ffee', '#ccfffb'] }
             },
             {
                 // 福井: 京都との被りを防ぐため、意図的に少し北(latを増加)へデフォルメ
                 id: 'fukui', lon: 136.22, lat: 36.60, label: '福井', emoji: '🦕',
                 color: '#88ff66',
-                exp: { type: '若狭湾エネルギーセンター', msgs: ['α/陽子線照射場', '実験中...', '解析中...'], particles: ['#88ff66', '#aaff88', '#ccffaa', '#bbff99'] }
-            },
-            {
-                // 京都: 被りを防ぐため、意図的に少し北東(lon, latを増加)へデフォルメ
-                id: 'kyoto', lon: 135.95, lat: 35.35, label: '京都', emoji: '🌸',
-                color: '#ff88cc',
-                exp: { type: '京都大学原子炉（KUR)', msgs: ['原子炉中性子源', '実験中...', '解析中...'], particles: ['#ff88cc', '#ffaadd', '#ffccee', '#ffbbdd'] }
+                exp: { type: '福井大学/若狭湾エネルギーセンター', msgs: ['α/陽子線照射場 共同利用', '実験中...', '解析中...'], particles: ['#88ff66', '#aaff88', '#ccffaa', '#bbff99'] }
             },
             {
                 // 大阪: 被りを防ぐため、意図的に少し南西(lon, latを減少)へデフォルメ
                 id: 'osaka', lon: 135.20, lat: 34.40, label: '大阪', emoji: '🍱',
                 color: '#ff7755',
-                exp: { type: '近畿大学原子炉（UTR－KINKl）', msgs: ['原子炉中性子源', '実験中...', '解析中...'], particles: ['#ff7755', '#ffaa66', '#ffcc88', '#ffbb77'] }
+                exp: { type: '近畿大学原子炉（UTR－KINKl）', msgs: ['原子炉中性子源 共同利用', '実験中...', '解析中...'], particles: ['#ff7755', '#ffaa66', '#ffcc88', '#ffbb77'] }
             },
             {
                 id: 'fukuoka', lon: 130.4017, lat: 33.5902, label: '福岡', emoji: '🎓',
@@ -640,14 +662,15 @@
                 exp: { type: '九州大学', msgs: ['渡辺賢一先生との共同研究', '実験中...', '解析中...'], particles: ['#aa88ff', '#cc99ff', '#ddaaff', '#eeccff'] }
             },
             {
-                id: 'korea', lon: 129.0300, lat: 35.1000, label: '韓国(釜山)拠点', emoji: '🌏',
+                id: 'korea', lon: 129.0300, lat: 35.1000, label: '韓国 (大田)', emoji: '🌏',
                 color: '#ffcc44',
-                exp: { type: 'K-STAR', msgs: ['韓国の核融合試験炉', '実験中...', '解析中...'], particles: ['#ffcc44', '#ffee66', '#ffee99', '#ffdd55'] }
+                exp: { type: 'Korea Institute of Fusion Energy', msgs: ['KSTAR 共同研究', '実験中...', '解析中...'], particles: ['#ffcc44', '#ffee66', '#ffee99', '#ffdd55'] }
             },
         ];
 
-        // ルート設定
-        const ROUTE = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+        // ルート設定（都市は CITIES のインデックス 0〜7 の 8 拠点。
+        // advance() 内で step を ROUTE.length で剰余して循環させる）
+        const ROUTE = [0, 1, 2, 3, 4, 5, 6, 7];
         let step = 0;
 
         // ── 2. 地図データのロードと D3 描画 (ズームアップ・不要エリアの除外) ──

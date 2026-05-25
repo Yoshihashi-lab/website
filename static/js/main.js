@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Uritani Laboratory - Main JavaScript
  */
 
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ============================================================
-  // Presentation Filter
+  // Publication Filter
   // ============================================================
   var filterBtns = document.querySelectorAll('.filter-btn[data-filter]');
   if (filterBtns.length > 0) {
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
         filterBtns.forEach(function (b) { b.classList.remove('active'); });
         btn.classList.add('active');
 
-        document.querySelectorAll('.presentation-entry').forEach(function (entry) {
+        document.querySelectorAll('.publication-entry').forEach(function (entry) {
           if (filter === 'all') {
             entry.style.display = '';
           } else {
@@ -77,8 +77,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         /* 空の年度セクションを非表示 */
-        document.querySelectorAll('.presentation-year').forEach(function (section) {
-          var visible = section.querySelectorAll('.presentation-entry:not([style*="none"])');
+        document.querySelectorAll('.publication-year').forEach(function (section) {
+          var visible = section.querySelectorAll('.publication-entry:not([style*="none"])');
           section.style.display = visible.length > 0 ? '' : 'none';
         });
       });
@@ -86,3 +86,4 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
 });
+
