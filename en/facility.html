@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facility | Yoshihashi Laboratory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/style.css">
+  <style>
+    /* Additional styles for Facility page */
+    .facility-overview {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      margin-bottom: 50px;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .facility-overview {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+    }
+
+    .facility-img-container {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 10px 30px var(--color-shadow);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .facility-img-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px var(--color-shadow-hover);
+    }
+
+    .facility-img-container img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .specs-section {
+      background-color: var(--color-white);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      margin-bottom: 50px;
+      box-shadow: 0 2px 10px var(--color-shadow);
+      border-top: 4px solid var(--color-accent);
+    }
+
+    .beamlines-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .beamlines-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
+    .beamline-card {
+      background-color: var(--color-white);
+      border-radius: var(--radius-md);
+      padding: 30px;
+      box-shadow: 0 2px 8px var(--color-shadow);
+      border-left: 5px solid var(--color-primary);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .beamline-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px var(--color-shadow-hover);
+    }
+
+    .beamline-card h3 {
+      font-size: 1.25rem;
+      color: var(--color-primary);
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1.5px solid var(--color-accent-light);
+      padding-bottom: 8px;
+    }
+
+    .beamline-badge {
+      font-size: 0.75rem;
+      background-color: var(--color-accent-light);
+      color: var(--color-primary);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .beamline-card ul {
+      margin-top: 15px;
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    .beamline-card li {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--color-text-mid);
+    }
+
+    .beamline-card strong {
+      color: var(--color-text);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="site-wrapper">
+
+    <header class="site-header">
+      <div class="header-inner">
+        <h1 class="site-title"><a href="index.html">Yoshihashi Laboratory</a></h1>
+        <div class="lang-switch">
+          <a href="../facility.html" class="lang-btn">JP</a>
+          <span>|</span>
+          <a href="facility.html" class="lang-btn active">EN</a>
+        </div>
+        <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <nav class="site-nav" aria-label="Main navigation">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <!-- <li><a href="news.html">News</a></li> -->
+            <li><a href="study.html">Study</a></li>
+            <li><a href="facility.html" class="active">Facility</a></li>
+            <li><a href="member.html">Member</a></li>
+            <li><a href="publication.html">Publication</a></li>
+            <li><a href="access.html">Access &amp; Contact</a></li>
+            <!-- <li><a href="blog.html">Blog</a></li> -->
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="site-main">
+      <div class="container">
+
+        <div class="page-header">
+          <h1>Facility</h1>
+          <p class="page-header-sub">Neutron Source NUANS Specifications</p>
+        </div>
+
+        <!-- Overview Section -->
+        <section class="facility-overview reveal">
+          <div>
+            <h2 class="section-title">Overview of NUANS</h2>
+            <p style="font-size: 1.05rem; line-height: 1.9; margin-bottom: 16px;">
+              <strong>NUANS (Nagoya University Accelerator-driven Neutron Source)</strong> is a compact
+              accelerator-driven neutron source owned and operated by our laboratory.
+              It is mainly dedicated to BNCT developments.
+            </p>
+            <p style="font-size: 1.05rem; line-height: 1.9; margin-bottom: 16px;">
+              The system uses a <strong>Dynamitron accelerator</strong> to accelerate protons,
+              which then bombard a lithium target to generate neutrons.
+            </p>
+            <p style="font-size: 1.05rem; line-height: 1.9;">
+              Currently, protons are accelerated up to <strong>2.6 MeV</strong>, and the beam current is <strong>2
+                mA</strong> in the operation.
+              NUANS serves as the cornerstone for multidisciplinary projects, ranging
+              from the development of advanced neutron detection devices and biological effect evaluation in BNCT.
+            </p>
+          </div>
+          <div class="facility-img-container">
+            <img src="../static/img/NUANS.png" alt="Neutron Source NUANS Accelerator">
+            <p
+              style="font-size: 0.8rem; text-align: center; color: var(--color-text-light); padding: 8px 12px; background-color: var(--color-surface-alt); margin: 0;">
+              The Dynamitron accelerator installed at Yoshihashi Laboratory
+            </p>
+          </div>
+        </section>
+
+        <!-- Specifications Section -->
+        <section class="specs-section reveal">
+          <h2 class="section-title">Accelerator & Neutron Source Specs</h2>
+          <p style="margin-bottom: 20px; color: var(--color-text-mid);">
+            The IBA Dynamitron accelerator at NUANS is a robust electrostatic system capable of delivering high-current
+            continuous wave (DC) proton beams stably.
+          </p>
+          <table class="archive-details-table">
+            <tbody>
+              <tr>
+                <th>Accelerator Type</th>
+                <td>Electrostatic Dynamitron Accelerator (manufactured by IBA)</td>
+              </tr>
+              <tr>
+                <th>Accelerated Particle</th>
+                <td>Proton</td>
+              </tr>
+              <tr>
+                <th>Max Proton Energy</th>
+                <td>2.8 MeV</td>
+              </tr>
+              <tr>
+                <th>Max Beam Current</th>
+                <td>15 mA</td>
+              </tr>
+              <tr>
+                <th>Beam Mode</th>
+                <td>DC (Continuous Wave)</td>
+              </tr>
+            </tbody>
+          </table>
+          <p
+            style="margin-top: 16px; font-size: 0.95rem; color: var(--color-text-mid); background-color: var(--color-surface-alt); padding: 12px 16px; border-radius: var(--radius-sm); border-left: 4px solid var(--color-primary);">
+            <strong>Current Operations:</strong> Operating at a proton beam energy of 2.6 MeV and 2 mA, producing an
+            approximate neutron flux of <strong>4&times;10<sup>8</sup> n/cm<sup>2</sup>/sec</strong> (Gold foils
+            experiment).
+          </p>
+        </section>
+
+        <!-- Neutron Energy Spectrum Section -->
+        <section class="reveal" style="margin-bottom: 50px;">
+          <h2 class="section-title">Neutron Energy Spectrum</h2>
+          <p style="margin-bottom: 24px; color: var(--color-text-mid);">
+            The neutron energy spectrum obtained from Monte Carlo calculations using PHITS is shown below.
+          </p>
+
+          <div
+            style="background-color: var(--color-surface-alt); border-radius: var(--radius-md); padding: 60px 20px; text-align: center; border: 2px dashed var(--color-accent-light); margin-bottom: 30px;">
+            <p style="color: var(--color-text-light); font-weight: 500; margin: 0;">calculating...</p>
+          </div>
+        </section>
+
+        <!-- References Section -->
+        <section class="reveal" style="margin-bottom: 50px;">
+          <h2 class="section-title">References</h2>
+          <div
+            style="background-color: var(--color-white); border-radius: var(--radius-md); padding: 30px; box-shadow: 0 2px 8px var(--color-shadow);">
+            <ul style="list-style-type: none; padding: 0; margin: 0; color: var(--color-text-mid); line-height: 1.8;">
+              <li
+                style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--color-accent-light);">
+                updating...
+              </li>
+              <li>
+                updating...
+              </li>
+            </ul>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <span class="footer-brand">Yoshihashi Laboratory</span>
+        <span>&copy; Yoshihashi Group, Nagoya University. All rights reserved.</span>
+      </div>
+    </footer>
+
+  </div>
+  <script src="../static/js/main.js"></script>
+</body>
+
+</html>
