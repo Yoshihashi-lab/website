@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    Uritani Laboratory - Main Stylesheet (task4 design polish)
    Django移行時: {% load static %} → {% static 'css/style.css' %}
    ============================================================ */
@@ -630,6 +630,11 @@ details.news-item[open] summary::after {
 .news-tag.tag-other {
   background: #e2e3e5;
   color: #383d41;
+}
+
+.news-tag.tag-practice {
+  background: #ffdfba;
+  color: #d35400;
 }
 
 .news-text {
