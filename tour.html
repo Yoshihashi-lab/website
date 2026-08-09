@@ -532,81 +532,81 @@
         <!-- ── マップエリア（地図 + マーカー類） ── -->
         <div id="map-area">
 
-        <!-- ── MAP SVG ── -->
-        <svg id="map-svg" viewBox="0 0 1120 630" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <radialGradient id="ocean-grad" cx="50%" cy="45%" r="65%">
-                    <stop offset="0%" stop-color="#2a7e9c" />
-                    <stop offset="100%" stop-color="#0a3044" />
-                </radialGradient>
+            <!-- ── MAP SVG ── -->
+            <svg id="map-svg" viewBox="0 0 1120 630" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <radialGradient id="ocean-grad" cx="50%" cy="45%" r="65%">
+                        <stop offset="0%" stop-color="#2a7e9c" />
+                        <stop offset="100%" stop-color="#0a3044" />
+                    </radialGradient>
 
-                <!-- 単色（緑）マップ用のグラデーションと影 -->
-                <linearGradient id="land-grad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#64be48" />
-                    <stop offset="100%" stop-color="#3a6e22" />
-                </linearGradient>
-                <filter id="isle-shadow" x="-12%" y="-12%" width="124%" height="130%">
-                    <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="rgba(0,0,0,0.50)" />
-                </filter>
+                    <!-- 単色（緑）マップ用のグラデーションと影 -->
+                    <linearGradient id="land-grad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#64be48" />
+                        <stop offset="100%" stop-color="#3a6e22" />
+                    </linearGradient>
+                    <filter id="isle-shadow" x="-12%" y="-12%" width="124%" height="130%">
+                        <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="rgba(0,0,0,0.50)" />
+                    </filter>
 
-                <pattern id="waves" width="80" height="40" patternUnits="userSpaceOnUse">
-                    <path d="M 0 20 Q 20 15, 40 20 Q 60 25, 80 20" fill="none" stroke="rgba(255,255,255,0.03)"
-                        stroke-width="1" />
-                </pattern>
-            </defs>
+                    <pattern id="waves" width="80" height="40" patternUnits="userSpaceOnUse">
+                        <path d="M 0 20 Q 20 15, 40 20 Q 60 25, 80 20" fill="none" stroke="rgba(255,255,255,0.03)"
+                            stroke-width="1" />
+                    </pattern>
+                </defs>
 
-            <!-- ── Ocean ── -->
-            <rect width="1120" height="630" fill="url(#ocean-grad)" />
-            <rect width="1120" height="630" fill="url(#waves)" />
+                <!-- ── Ocean ── -->
+                <rect width="1120" height="630" fill="url(#ocean-grad)" />
+                <rect width="1120" height="630" fill="url(#waves)" />
 
-            <!-- ── D3 Map Layer ── -->
-            <g id="map-layer"></g>
+                <!-- ── D3 Map Layer ── -->
+                <g id="map-layer"></g>
 
-            <!-- ── Animated travel lines ── -->
-            <g id="travel-lines"></g>
+                <!-- ── Animated travel lines ── -->
+                <g id="travel-lines"></g>
 
-            <!-- ── Compass ── -->
-            <g transform="translate(1060, 55)" opacity="0.6">
-                <line x1="0" y1="-14" x2="0" y2="14" stroke="#88ddcc" stroke-width="1.5" />
-                <line x1="-14" y1="0" x2="14" y2="0" stroke="#88ddcc" stroke-width="1.5" />
-                <polygon points="0,-16 4,-5 0,-8 -4,-5" fill="#88ddcc" />
-                <text y="-20" text-anchor="middle" fill="#88ddcc" font-size="10" font-weight="700">N</text>
-            </g>
-        </svg>
-
-        <!-- Cities -->
-        <div id="cities-container"></div>
-
-        <!-- Avatar -->
-        <div id="avatar" class="idle">
-            <svg viewBox="0 0 32 40" xmlns="http://www.w3.org/2000/svg">
-                <rect x="7" y="17" width="18" height="15" rx="4" fill="#f0f4ff" />
-                <rect x="11" y="19" width="10" height="12" rx="2" fill="#4a9eff" opacity="0.6" />
-                <polygon points="14,17 11,19 11,24 14,21" fill="#dde4ff" />
-                <polygon points="18,17 21,19 21,24 18,21" fill="#dde4ff" />
-                <circle cx="16" cy="12" r="8" fill="#ffd6a5" />
-                <ellipse cx="16" cy="6.5" rx="7" ry="4" fill="#5c3a1e" />
-                <rect x="9" y="6" width="14" height="6" rx="2" fill="#5c3a1e" />
-                <circle cx="13" cy="12" r="1.4" fill="#1a1a2e" />
-                <circle cx="19" cy="12" r="1.4" fill="#1a1a2e" />
-                <rect x="10.5" y="10" width="5" height="4" rx="2" fill="none" stroke="#88ccff" stroke-width="0.9" />
-                <rect x="16.5" y="10" width="5" height="4" rx="2" fill="none" stroke="#88ccff" stroke-width="0.9" />
-                <line x1="15.5" y1="12" x2="16.5" y2="12" stroke="#88ccff" stroke-width="0.9" />
-                <path d="M 13 15 Q 16 17 19 15" stroke="#b07040" stroke-width="1.1" fill="none"
-                    stroke-linecap="round" />
-                <rect x="10" y="30" width="5" height="8" rx="2.5" fill="#2a3a6a" />
-                <rect x="17" y="30" width="5" height="8" rx="2.5" fill="#2a3a6a" />
-                <rect x="22" y="20" width="5" height="6" rx="1" fill="#ffd" stroke="#ccc" stroke-width="0.5" />
-                <line x1="23" y1="22" x2="26" y2="22" stroke="#aaa" stroke-width="0.6" />
-                <line x1="23" y1="23.5" x2="26" y2="23.5" stroke="#aaa" stroke-width="0.6" />
+                <!-- ── Compass ── -->
+                <g transform="translate(1060, 55)" opacity="0.6">
+                    <line x1="0" y1="-14" x2="0" y2="14" stroke="#88ddcc" stroke-width="1.5" />
+                    <line x1="-14" y1="0" x2="14" y2="0" stroke="#88ddcc" stroke-width="1.5" />
+                    <polygon points="0,-16 4,-5 0,-8 -4,-5" fill="#88ddcc" />
+                    <text y="-20" text-anchor="middle" fill="#88ddcc" font-size="10" font-weight="700">N</text>
+                </g>
             </svg>
-        </div>
 
-        <!-- Speech bubble -->
-        <div id="bubble"></div>
+            <!-- Cities -->
+            <div id="cities-container"></div>
 
-        <!-- Particles -->
-        <div id="particles-container"></div>
+            <!-- Avatar -->
+            <div id="avatar" class="idle">
+                <svg viewBox="0 0 32 40" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="7" y="17" width="18" height="15" rx="4" fill="#f0f4ff" />
+                    <rect x="11" y="19" width="10" height="12" rx="2" fill="#4a9eff" opacity="0.6" />
+                    <polygon points="14,17 11,19 11,24 14,21" fill="#dde4ff" />
+                    <polygon points="18,17 21,19 21,24 18,21" fill="#dde4ff" />
+                    <circle cx="16" cy="12" r="8" fill="#ffd6a5" />
+                    <ellipse cx="16" cy="6.5" rx="7" ry="4" fill="#5c3a1e" />
+                    <rect x="9" y="6" width="14" height="6" rx="2" fill="#5c3a1e" />
+                    <circle cx="13" cy="12" r="1.4" fill="#1a1a2e" />
+                    <circle cx="19" cy="12" r="1.4" fill="#1a1a2e" />
+                    <rect x="10.5" y="10" width="5" height="4" rx="2" fill="none" stroke="#88ccff" stroke-width="0.9" />
+                    <rect x="16.5" y="10" width="5" height="4" rx="2" fill="none" stroke="#88ccff" stroke-width="0.9" />
+                    <line x1="15.5" y1="12" x2="16.5" y2="12" stroke="#88ccff" stroke-width="0.9" />
+                    <path d="M 13 15 Q 16 17 19 15" stroke="#b07040" stroke-width="1.1" fill="none"
+                        stroke-linecap="round" />
+                    <rect x="10" y="30" width="5" height="8" rx="2.5" fill="#2a3a6a" />
+                    <rect x="17" y="30" width="5" height="8" rx="2.5" fill="#2a3a6a" />
+                    <rect x="22" y="20" width="5" height="6" rx="1" fill="#ffd" stroke="#ccc" stroke-width="0.5" />
+                    <line x1="23" y1="22" x2="26" y2="22" stroke="#aaa" stroke-width="0.6" />
+                    <line x1="23" y1="23.5" x2="26" y2="23.5" stroke="#aaa" stroke-width="0.6" />
+                </svg>
+            </div>
+
+            <!-- Speech bubble -->
+            <div id="bubble"></div>
+
+            <!-- Particles -->
+            <div id="particles-container"></div>
 
         </div><!-- /#map-area -->
 
@@ -630,7 +630,7 @@
                 exp: { type: 'NUANS', msgs: ['加速器中性子源', '実験中…', '解析中…'], particles: ['#ffd700', '#ffaa00', '#fff176', '#ffe066'] }
             },
             {
-                id: 'tokyo', lon: 140.4851, lat: 36.4566, label: '那珂（茨城）', emoji: '⚡',
+                id: 'tokyo', lon: 140.4851, lat: 36.4566, label: '茨城', emoji: '⚡',
                 color: '#4a9eff',
                 exp: { type: 'QST那珂フュージョン科学技術研究所', msgs: ['JT-60SA 共同研究', '実験中...', '測定中...'], particles: ['#4a9eff', '#88ccff', '#b3e0ff', '#ffffff'] }
             },
@@ -662,7 +662,7 @@
                 exp: { type: '九州大学', msgs: ['渡辺賢一先生との共同研究', '実験中...', '解析中...'], particles: ['#aa88ff', '#cc99ff', '#ddaaff', '#eeccff'] }
             },
             {
-                id: 'korea', lon: 129.0300, lat: 35.1000, label: '韓国 (大田)', emoji: '🌏',
+                id: 'korea', lon: 129.0300, lat: 35.1000, label: '韓国', emoji: '🌏',
                 color: '#ffcc44',
                 exp: { type: 'Korea Institute of Fusion Energy', msgs: ['KSTAR 共同研究', '実験中...', '解析中...'], particles: ['#ffcc44', '#ffee66', '#ffee99', '#ffdd55'] }
             },
