@@ -52,6 +52,33 @@
         <div class="news-list" style="margin-bottom: 40px;">
           <article class="news-item" style="display: block; padding: 32px; margin-bottom: 24px;">
             <div style="margin-bottom: 16px; display: flex; align-items: center; gap: 12px;">
+              <span class="news-date">2026.08.01</span>
+              <span class="news-tag tag-event" style="margin: 0;">お知らせ</span>
+            </div>
+            <h3 style="font-size: 1.5rem; margin-bottom: 20px; color: var(--color-primary);">BNCT 学会</h3>
+
+            <div class="blog-chat chat-container"
+              style="display: flex; align-items: flex-start; gap: 20px; margin-top: 30px;">
+              <div class="chat-avatar"
+                style="flex-shrink: 0; width: 160px; height: 160px; border-radius: 50%; overflow: hidden; border: 3px solid #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); background-color: #fff;">
+                <img src="static/img/nakayama.png" alt="中山"
+                  style="width: 100%; height: 100%; object-fit: cover; object-position: center 38%; transform: scale(1.35);">
+              </div>
+              <div class="chat-bubble"
+                style="position: relative; background: #85e249; padding: 24px 28px; border-radius: 20px; font-size: 1.25rem; color: #111; line-height: 1.8; border-top-left-radius: 2px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <p style="margin-bottom: 0;">こんにちは。ライターの中山です。BNCT学会に参加してきました。</p>
+                <p style="margin-bottom: 0; margin-top: 10px;">今回自分はエントリーしませんでしたが、（自腹で）京都観光を楽しんできました。</p>
+                <p style="margin-bottom: 0; margin-top: 10px;">忘れられない最高の思い出になりました。</p>
+                <!-- 吹き出しの尻尾 -->
+                <div class="chat-tail"
+                  style="position: absolute; top: 0; left: -12px; width: 0; height: 0; border-top: 15px solid #85e249; border-left: 15px solid transparent;">
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="news-item" style="display: block; padding: 32px; margin-bottom: 24px;">
+            <div style="margin-bottom: 16px; display: flex; align-items: center; gap: 12px;">
               <span class="news-date">2026.05.20</span>
               <span class="news-tag tag-event" style="margin: 0;">お知らせ</span>
             </div>
@@ -109,16 +136,319 @@
       <div class="container">
         <h2 class="section-title">Vlog</h2>
 
-        <p style="text-align: center; font-size: 1.2rem; color: #666; margin-bottom: 40px;">Coming soon!</p>
-      </div>
-    </main>
+        <div class="vlog-marquee-container">
+          <style>
+            .vlog-marquee-container {
+              overflow: hidden;
+              padding: 40px 0;
+              background-color: #f7f9fa;
+              position: relative;
+              width: 100%;
+              margin-bottom: 60px;
+            }
 
-    <footer class="site-footer">
-      <div class="footer-inner">
-        <span class="footer-brand">Yoshihashi Laboratory</span>
-        <span>&copy; Yoshihashi Group, Nagoya University. All rights reserved.</span>
+            .vlog-marquee-track {
+              display: flex;
+              gap: 24px;
+              width: max-content;
+              margin-bottom: 24px;
+            }
+
+            .vlog-marquee-track:last-child {
+              margin-bottom: 0;
+            }
+
+            .vlog-marquee-track.left {
+              animation: scroll-left 40s linear infinite;
+            }
+
+            .vlog-marquee-track.right {
+              animation: scroll-right 40s linear infinite;
+            }
+
+            .vlog-marquee-track:hover {
+              animation-play-state: paused;
+            }
+
+            @keyframes scroll-left {
+              0% {
+                transform: translateX(0);
+              }
+
+              100% {
+                transform: translateX(-50%);
+              }
+            }
+
+            @keyframes scroll-right {
+              0% {
+                transform: translateX(-50%);
+              }
+
+              100% {
+                transform: translateX(0);
+              }
+            }
+
+            .vlog-item {
+              width: 320px;
+              height: 220px;
+              border-radius: 16px;
+              background-color: #fff;
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+              overflow: hidden;
+              position: relative;
+              flex-shrink: 0;
+              cursor: pointer;
+            }
+
+            .vlog-item img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              transition: transform 0.4s ease;
+            }
+
+            .vlog-item:hover img {
+              transform: scale(1.08);
+            }
+
+            .vlog-overlay {
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent 50%);
+              opacity: 0;
+              transition: opacity 0.3s;
+            }
+
+            .vlog-item:hover .vlog-overlay {
+              opacity: 1;
+            }
+
+            .vlog-play-btn {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%) scale(0.9);
+              width: 56px;
+              height: 56px;
+              background: rgba(255, 255, 255, 0.9);
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+              transition: transform 0.3s, background 0.3s;
+              opacity: 0.9;
+            }
+
+            .vlog-item:hover .vlog-play-btn {
+              transform: translate(-50%, -50%) scale(1);
+              background: #fff;
+            }
+
+            .vlog-play-btn::after {
+              content: '';
+              width: 0;
+              height: 0;
+              border-top: 10px solid transparent;
+              border-bottom: 10px solid transparent;
+              border-left: 16px solid var(--color-primary, #0056b3);
+              margin-left: 6px;
+            }
+
+            .vlog-title {
+              position: absolute;
+              bottom: 16px;
+              left: 20px;
+              right: 20px;
+              color: #fff;
+              font-weight: bold;
+              font-size: 1.1rem;
+              opacity: 0;
+              transform: translateY(10px);
+              transition: opacity 0.3s, transform 0.3s;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            }
+
+            .vlog-item:hover .vlog-title {
+              opacity: 1;
+              transform: translateY(0);
+            }
+
+            @media (max-width: 768px) {
+              .vlog-item {
+                width: 240px;
+                height: 160px;
+              }
+
+              .vlog-marquee-track {
+                gap: 16px;
+                margin-bottom: 16px;
+              }
+            }
+          </style>
+
+          <!-- Left scrolling track (Row 1) -->
+          <div class="vlog-marquee-track left">
+            <!-- original 8 items -->
+            <div class="vlog-item">
+              <img src="static/img/presentation_practice.jpeg" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">プレゼンテーションの練習</div>
+            </div>
+            <div class="vlog-item">
+              <img src="static/img/soccer_win.jpg" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">球技大会優勝しました</div>
+            </div>
+            <div class="vlog-item">
+              <img src="static/img/may_2026.png" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">定例会</div>
+            </div>
+            <div class="vlog-item">
+              <img src="static/img/1-s2.0-S0969804325004269-gr5_lrg.jpg" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">γ-H2AX Foci</div>
+            </div>
+            <div class="vlog-item">
+              <img src="static/img/study.png" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">西谷特任教授による勉強会</div>
+            </div>
+            <!-- duplicate 8 items -->
+            <div class="vlog-item">
+              <img src="static/img/Image_mosaic_nakayama.png" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">学会発表の裏側</div>
+            </div>
+            <div class="vlog-item">
+              <img src="static/img/mosaic_Image_Ochiai.png" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">核融合エネルギー連合講演会で研究室の大先輩と</div>
+            </div>
+            <div class="vlog-item">
+              <img src="static/img/mosaic_Image_Rengo.png" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">核融合エネルギー連合講演会 懇親会</div>
+            </div>
+            <div class="vlog-item">
+              <img src="static/img/mosaic_Image_Kanematsu.png" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">核融合エネルギー連合講演会</div>
+            </div>
+            <div class="vlog-item">
+              <img src="static/img/mosaic_Image_BNCT.png" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">日本中性子捕捉療法学会 打ち上げ</div>
+            </div>
+            <div class="vlog-item">
+              <img src="static/img/1-s2.0-S0969804325004269-gr5_lrg.jpg" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">γ-H2AX Foci</div>
+            </div>
+            <div class="vlog-item">
+              <img src="static/img/study.png" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">西谷特任教授による勉強会</div>
+            </div>
+          </div>
+
+          <!-- Right scrolling track (Row 2) -->
+          <div class="vlog-marquee-track right">
+            <!-- original 8 items -->
+            <div class="vlog-item">
+              <img src="static/img/IMG_9731_mosaic.jpeg" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">NGK 見学</div>
+            </div>
+            <div class="vlog-item">
+              <img src="static/img/museum.png" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">博物館訪問</div>
+            </div>
+            <div class="vlog-item">
+              <img src="static/img/P1010022.JPG" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">NUANS</div>
+            </div>
+            <div class="vlog-item">
+              <img src="static/img/soccer.jpg" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">球技大会</div>
+            </div>
+            <div class="vlog-item">
+              <img src="static/img/kurosawa_tomita.png" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">合同研究会</div>
+            </div>
+            <div class="vlog-item">
+              <img src="static/img/kindai26.png" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">近畿大学原子炉実習</div>
+            </div>
+            <!-- duplicate 8 items -->
+            <div class="vlog-item">
+              <img src="static/img/IMG_9731_mosaic.jpeg" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">施設見学ツアー</div>
+            </div>
+            <div class="vlog-item">
+              <img src="static/img/april_2026.png" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">新入生歓迎会</div>
+            </div>
+            <div class="vlog-item">
+              <img src="static/img/may_2026.png" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">5月定例会</div>
+            </div>
+            <div class="vlog-item">
+              <img src="static/img/mosaic_Image_BBQ.png" alt="Vlog">
+              <div class="vlog-overlay"></div>
+
+              <div class="vlog-title">7 月 定例会 (BBQ)</div>
+            </div>
+          </div>
+        </div>
       </div>
-    </footer>
+  </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-brand">Yoshihashi Laboratory</span>
+      <span>&copy; Yoshihashi Group, Nagoya University. All rights reserved.</span>
+    </div>
+  </footer>
 
   </div>
   <script src="static/js/main.js"></script>
