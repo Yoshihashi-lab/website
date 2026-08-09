@@ -637,6 +637,11 @@ details.news-item[open] summary::after {
   color: #d35400;
 }
 
+.news-tag.tag-internal {
+  background: #e9d5f7;
+  color: #551a70;
+}
+
 .news-text {
   flex: 1;
   font-size: 0.95rem;
