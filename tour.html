@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 
 <head>
@@ -657,6 +657,11 @@
                 exp: { type: '近畿大学原子炉（UTR－KINKl）', msgs: ['原子炉中性子源 共同利用', '実験中...', '解析中...'], particles: ['#ff7755', '#ffaa66', '#ffcc88', '#ffbb77'] }
             },
             {
+                id: 'saitama', lon: 139.61, lat: 35.78, label: '埼玉', emoji: '🔬',
+                color: '#ff66b3',
+                exp: { type: '理化学研究所', msgs: ['Moonshot 10', '加速器中性子源開発中', '解析中...'], particles: ['#ff66b3', '#ff99cc', '#ffccdd', '#ffbbdd'] }
+            },
+            {
                 id: 'fukuoka', lon: 130.4017, lat: 33.5902, label: '福岡', emoji: '🎓',
                 color: '#aa88ff',
                 exp: { type: '九州大学', msgs: ['渡辺賢一先生との共同研究', '実験中...', '解析中...'], particles: ['#aa88ff', '#cc99ff', '#ddaaff', '#eeccff'] }
@@ -668,9 +673,9 @@
             },
         ];
 
-        // ルート設定（都市は CITIES のインデックス 0〜7 の 8 拠点。
+        // ルート設定（都市は CITIES のインデックス 0〜8 の 9 拠点。
         // advance() 内で step を ROUTE.length で剰余して循環させる）
-        const ROUTE = [0, 1, 2, 3, 4, 5, 6, 7];
+        const ROUTE = [0, 1, 2, 3, 4, 5, 6, 7, 8];
         let step = 0;
 
         // ── 2. 地図データのロードと D3 描画 (ズームアップ・不要エリアの除外) ──

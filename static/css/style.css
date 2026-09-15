@@ -1738,9 +1738,14 @@ details.news-item[open] summary::after {
   white-space: nowrap;
 }
 
-.archive-item-tag.tag-conference {
+.archive-item-tag.tag-conference-dom {
   background-color: #d4edda;
   color: #155724;
+}
+
+.archive-item-tag.tag-conference-intl {
+  background-color: #e9d5f7;
+  color: #551a70;
 }
 
 .archive-item-tag.tag-journal {
