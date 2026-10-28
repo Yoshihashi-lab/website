@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 
 <head>
@@ -509,7 +509,7 @@
 
 <body>
 
-    <div id="title">RESEARCH NETWORK</div>
+    <div id="title">RESEARCH NETWORK <span style="font-size: 13px; font-weight: 500; letter-spacing: 0.15em; color: #2a7e9c; vertical-align: middle;">— Domestic &amp; International Collaboration —</span></div>
 
     <div id="stage">
 
@@ -652,20 +652,40 @@
                 exp: { type: 'Kindai University', msgs: ['Thermal neutron reactor facility (UTR－KINKI)', 'Experiments...', '✅ Trackstructure Analysis!', 'Successful!'], particles: ['#ff7755', '#ffaa66', '#ffcc88', '#ffbb77'] }
             },
             {
-                id: 'fukuoka', lon: 130.4017, lat: 33.5902, label: 'Fukuoka', emoji: '🎓',
-                color: '#aa88ff',
-                exp: { type: 'Kyusyu University', msgs: ['Collaborative research with Prof. Watanabe', 'Developing new devices...', '✅ Fantastic Discoveries!'], particles: ['#aa88ff', '#cc99ff', '#ddaaff', '#eeccff'] }
+                id: 'saitama', lon: 139.61, lat: 35.78, label: 'Saitama', emoji: '🔬',
+                color: '#ff66b3',
+                exp: { type: 'RIKEN', msgs: ['Moonshot Goal 10 Project', 'Accelerator neutron source development...', '✅ Analysis in progress!'], particles: ['#ff66b3', '#ff99cc', '#ffccdd', '#ffbbdd'] }
             },
             {
-                id: 'korea', lon: 129.0300, lat: 35.1000, label: 'Korea, KSTAR', emoji: '🌏',
-                color: '#ffcc44',
-                exp: { type: 'Korea Institute of Fusion Energy', msgs: ['KSTAR Joint Research', 'Simulation and Experiments...', '✅ Exproling horizons!', 'Incredible!'], particles: ['#ffcc44', '#ffee66', '#ffee99', '#ffdd55'] }
+                id: 'fukuoka', lon: 130.4017, lat: 33.5902, label: 'Fukuoka', emoji: '🎓',
+                color: '#aa88ff',
+                exp: { type: 'Kyushu University', msgs: ['Collaborative research with Prof. Watanabe', 'Developing new devices...', '✅ Fantastic Discoveries!'], particles: ['#aa88ff', '#cc99ff', '#ddaaff', '#eeccff'] }
+            },
+            {
+                id: 'korea', lon: 129.0300, lat: 35.1000, label: 'Korea (KSTAR)', emoji: '🌏',
+                color: '#ffcc44', isGlobal: true, region: 'KOREA',
+                exp: { type: 'Korea Institute of Fusion Energy', msgs: ['KSTAR Joint Research', 'Simulation and Experiments...', '✅ Exploring new horizons!', 'Incredible!'], particles: ['#ffcc44', '#ffee66', '#ffee99', '#ffdd55'] }
+            },
+            {
+                id: 'cadarache', x: 105, y: 115, lon: 5.7000, lat: 43.7000, label: 'Cadarache', emoji: '🇫🇷',
+                color: '#ff6b6b', isGlobal: true, region: 'FRANCE',
+                exp: { type: 'ITER (International Fusion Energy)', msgs: ['ITER Neutron Field Characterization', 'Activation Detector Calibration...', '✅ Advanced Plasma Diagnostics!'], particles: ['#ff6b6b', '#ff9f43', '#feca57', '#ffffff'] }
+            },
+            {
+                id: 'milano', x: 275, y: 105, lon: 9.1900, lat: 45.4642, label: 'Milan', emoji: '🇮🇹',
+                color: '#00d2d3', isGlobal: true, region: 'ITALY',
+                exp: { type: 'Politecnico di Milano', msgs: ['BNCT SPECT Dosimetry Validation', 'Real-Time AI Reconstruction...', '✅ International Joint Research!'], particles: ['#00d2d3', '#54a0ff', '#1dd1a1', '#ffffff'] }
+            },
+            {
+                id: 'newyork', x: 950, y: 465, lon: -72.8722, lat: 40.8678, label: 'New York', emoji: '🇺🇸',
+                color: '#a55eea', isGlobal: true, region: 'USA',
+                exp: { type: 'Brookhaven National Laboratory (BNL)', msgs: ['Neutron Nuclear Data & Target Studies', 'Beamline Irradiation Experiments...', '✅ Global Data Analysis!'], particles: ['#a55eea', '#a29bfe', '#fd79a8', '#ffffff'] }
             },
         ];
 
-        // Route setup (8 cities at CITIES indices 0–7;
+        // Route setup (12 cities at CITIES indices 0–11;
         // advance() wraps step with modulo ROUTE.length)
-        const ROUTE = [0, 1, 2, 3, 4, 5, 6, 7];
+        const ROUTE = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
         let step = 0;
 
         // ── 2. 地図データのロードと D3 描画 (ズームアップ・不要エリアの除外) ──
@@ -720,20 +740,59 @@
                 .attr("stroke-linejoin", "round")
                 .attr("filter", "url(#isle-shadow)");
 
-            // 緯度経度から画面の X, Y 座標を算出して CITIES に設定
+            // 緯度経度から画面の X, Y 座標を算出して CITIES に設定 (海外拠点は固定配置x, yを優先)
             CITIES.forEach(city => {
-                const [x, y] = projection([city.lon, city.lat]);
-                city.x = x; city.y = y;
+                if (city.x == null || city.y == null) {
+                    const [x, y] = projection([city.lon, city.lat]);
+                    city.x = x; city.y = y;
+                }
             });
 
-            // Korea拠点の海の上でのレーダー風演出
-            const koreaBase = CITIES.find(c => c.id === 'korea');
-            if (koreaBase) {
-                const radar = mapLayer.append("g").attr("transform", `translate(${koreaBase.x}, ${koreaBase.y})`);
-                radar.append("circle").attr("r", 20).attr("fill", "rgba(255, 204, 68, 0.1)").attr("stroke", "rgba(255, 204, 68, 0.3)").attr("stroke-dasharray", "2 4");
-                radar.append("circle").attr("r", 35).attr("fill", "none").attr("stroke", "rgba(255, 204, 68, 0.2)").attr("stroke-dasharray", "4 6");
-                radar.append("text").attr("x", -20).attr("y", -40).attr("fill", "rgba(255, 204, 68, 0.6)").attr("font-size", "9").text("GLOBAL LINK");
+            // 国際共同研究拠点へのグローバルネットワーク演出
+            const globalCities = CITIES.filter(c => c.isGlobal);
+            const nagoyaBase = CITIES.find(c => c.id === 'nagoya');
+
+            // 名古屋（本拠点）から各国際拠点へ伸びる淡いグローバルネットワークライン
+            if (nagoyaBase) {
+                const globalNet = mapLayer.append("g").attr("class", "global-network-lines").attr("opacity", 0.4);
+                globalCities.forEach(gc => {
+                    const dx = gc.x - nagoyaBase.x;
+                    const dy = gc.y - nagoyaBase.y;
+                    const cx = nagoyaBase.x + dx * 0.5 - dy * 0.18;
+                    const cy = nagoyaBase.y + dy * 0.5 + dx * 0.18;
+                    globalNet.append("path")
+                        .attr("d", `M ${nagoyaBase.x} ${nagoyaBase.y} Q ${cx} ${cy} ${gc.x} ${gc.y}`)
+                        .attr("fill", "none")
+                        .attr("stroke", gc.color)
+                        .attr("stroke-width", 1.2)
+                        .attr("stroke-dasharray", "3 4");
+                });
             }
+
+            // 各国際拠点の海の上でのレーダー風演出
+            globalCities.forEach(gc => {
+                const radar = mapLayer.append("g").attr("transform", `translate(${gc.x}, ${gc.y})`);
+                radar.append("circle")
+                    .attr("r", 20)
+                    .attr("fill", gc.color + "18")
+                    .attr("stroke", gc.color + "55")
+                    .attr("stroke-dasharray", "2 4");
+                radar.append("circle")
+                    .attr("r", 35)
+                    .attr("fill", "none")
+                    .attr("stroke", gc.color + "33")
+                    .attr("stroke-dasharray", "4 6");
+                radar.append("text")
+                    .attr("x", 0)
+                    .attr("y", -38)
+                    .attr("text-anchor", "middle")
+                    .attr("fill", gc.color)
+                    .attr("opacity", 0.85)
+                    .attr("font-size", "8.5")
+                    .attr("font-weight", "bold")
+                    .attr("letter-spacing", "0.08em")
+                    .text(`GLOBAL LINK [${gc.region || 'INTL'}]`);
+            });
 
             // ローディング画面を隠す
             const loading = document.getElementById("loading");
