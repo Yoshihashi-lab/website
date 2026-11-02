@@ -782,16 +782,6 @@
                     .attr("fill", "none")
                     .attr("stroke", gc.color + "33")
                     .attr("stroke-dasharray", "4 6");
-                radar.append("text")
-                    .attr("x", 0)
-                    .attr("y", -38)
-                    .attr("text-anchor", "middle")
-                    .attr("fill", gc.color)
-                    .attr("opacity", 0.85)
-                    .attr("font-size", "8.5")
-                    .attr("font-weight", "bold")
-                    .attr("letter-spacing", "0.08em")
-                    .text(`GLOBAL LINK [${gc.region || 'INTL'}]`);
             });
 
             // ローディング画面を隠す
