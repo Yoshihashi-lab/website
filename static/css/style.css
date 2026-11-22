@@ -642,6 +642,11 @@ details.news-item[open] summary::after {
   color: #551a70;
 }
 
+.news-tag.tag-collaboration {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
 .news-text {
   flex: 1;
   font-size: 0.95rem;
